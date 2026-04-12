@@ -1,0 +1,19 @@
+{
+  "id": "conv-1774167258067-ier6bspjo",
+  "title": "帮我仅翻译：# Extend Claude with Skills的引言部分，以及## Bundle...",
+  "titleGenerationStatus": "failed",
+  "createdAt": 1774167258067,
+  "updatedAt": 1774245797263,
+  "lastResponseAt": 1774245784731,
+  "sessionId": null,
+  "sdkSessionId": "a13895ae-9801-4b71-97ec-b50f6b3eb071",
+  "usage": {
+    "model": "haiku",
+    "inputTokens": 0,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 0,
+    "contextWindow": 200000,
+    "contextTokens": 0,
+    "percentage": 0
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "conv-1772436685654-6hjpe19wb",
+  "title": "你好",
+  "titleGenerationStatus": "failed",
+  "createdAt": 1772436685660,
+  "updatedAt": 1772436706450,
+  "lastResponseAt": 1772436701833,
+  "sessionId": null,
+  "sdkSessionId": "58804b6f-75bb-4ffc-a611-c38e3dbeed3d",
+  "currentNote": "工作/未命名.md",
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 0,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 0,
+    "contextWindow": 200000,
+    "contextTokens": 0,
+    "percentage": 0
+  }
+}

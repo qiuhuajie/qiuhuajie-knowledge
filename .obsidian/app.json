@@ -1,0 +1,13 @@
+{
+  "alwaysUpdateLinks": true,
+  "readableLineLength": true,
+  "spellcheck": true,
+  "promptDelete": false,
+  "newFileLocation": "root",
+  "attachmentFolderPath": "/",
+  "showLineNumber": false,
+  "showInlineTitle": false,
+  "foldIndent": true,
+  "foldHeading": true,
+  "autoPairMarkdown": false
+}

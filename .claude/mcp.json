@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "aone-yuque": {
+      "type": "http",
+      "url": "https://mcp.alibaba-inc.com/aone-km/mcp",
+      "headers": {
+        "PRIVATE-TOKEN": "-Wn2RnIl6aqKevhnVs4q"
+      }
+    }
+  },
+  "_claudian": {
+    "servers": {
+      "aone-yuque": {
+        "contextSaving": false
+      }
+    }
+  }
+}

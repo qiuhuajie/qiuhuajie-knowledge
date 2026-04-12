@@ -1,0 +1,18 @@
+{
+  "accentColor": "#686aa1",
+  "cssTheme": "Baseline",
+  "monospaceFontFamily": "Alibaba Sans",
+  "textFontFamily": "Alibaba Sans",
+  "interfaceFontFamily": "Alibaba Sans",
+  "theme": "moonstone",
+  "baseFontSizeAction": false,
+  "baseFontSize": 16,
+  "enabledCssSnippets": [
+    "image",
+    "image-center",
+    "光标所在行样式"
+  ],
+  "showViewHeader": true,
+  "showRibbon": true,
+  "translucency": false
+}

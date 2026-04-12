@@ -1,0 +1,19 @@
+{
+  "id": "conv-1772445755629-21azakg9q",
+  "title": "Fetch webpage headings",
+  "titleGenerationStatus": "success",
+  "createdAt": 1772445755629,
+  "updatedAt": 1772445819805,
+  "lastResponseAt": 1772445819805,
+  "sessionId": null,
+  "sdkSessionId": "862400c9-1c42-4b35-b29e-8dcac7fe5ef5",
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 0,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 0,
+    "contextWindow": 200000,
+    "contextTokens": 0,
+    "percentage": 0
+  }
+}

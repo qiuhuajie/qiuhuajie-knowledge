@@ -1,0 +1,19 @@
+{
+  "id": "conv-1774927646261-asf3uauwd",
+  "title": "❯ 我现在是要让签证办理的商家进行使用：主要是签证售前咨询agent，根据用户的提问，不断澄清反问，...",
+  "titleGenerationStatus": "failed",
+  "createdAt": 1774927646261,
+  "updatedAt": 1774928671230,
+  "lastResponseAt": 1774928671230,
+  "sessionId": "ae2f8584-79ba-4304-85b7-b5a5d1dcec72",
+  "sdkSessionId": "ae2f8584-79ba-4304-85b7-b5a5d1dcec72",
+  "usage": {
+    "model": "opus",
+    "inputTokens": 0,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 0,
+    "contextWindow": 200000,
+    "contextTokens": 0,
+    "percentage": 0
+  }
+}

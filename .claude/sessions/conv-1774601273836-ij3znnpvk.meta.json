@@ -1,0 +1,23 @@
+{
+  "id": "conv-1774601273836-ij3znnpvk",
+  "title": "你好",
+  "titleGenerationStatus": "failed",
+  "createdAt": 1774601273836,
+  "updatedAt": 1774927618808,
+  "lastResponseAt": 1774603462825,
+  "sessionId": "639d44da-37d5-49de-89e6-98c36f1c6d15",
+  "sdkSessionId": "639d44da-37d5-49de-89e6-98c36f1c6d15",
+  "previousSdkSessionIds": [
+    "678544d2-275d-46ef-abe9-9d8dcaf730b6"
+  ],
+  "currentNote": "1question/开发工具/Git/Git.md",
+  "usage": {
+    "model": "opus",
+    "inputTokens": 1808,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 21501,
+    "contextWindow": 200000,
+    "contextTokens": 23309,
+    "percentage": 12
+  }
+}

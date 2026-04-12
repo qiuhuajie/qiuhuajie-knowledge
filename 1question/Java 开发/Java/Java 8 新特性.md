@@ -1,0 +1,6 @@
+[[Stream API]]
+[[Lambda 表达式]]
+[[函数式（Functional）接口]]
+[[方法引用与构造器引用]]
+[[Optional 类]]
+[[Export-e8249ac1-4ae1-42cd-83d5-041a266841fe/1question/Java 开发/Java/Java 8 新特性/Supplier|Supplier]]

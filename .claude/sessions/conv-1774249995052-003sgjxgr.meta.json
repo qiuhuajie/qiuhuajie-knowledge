@@ -1,0 +1,19 @@
+{
+  "id": "conv-1774249995052-003sgjxgr",
+  "title": "根据my-markdown skill，把当前这个文件修改成我自己的笔记风格",
+  "titleGenerationStatus": "failed",
+  "createdAt": 1774249995053,
+  "updatedAt": 1774601257320,
+  "lastResponseAt": 1774250974935,
+  "sessionId": null,
+  "sdkSessionId": "d988490d-d1b6-44d2-a7c0-b182d8970e1f",
+  "usage": {
+    "model": "haiku",
+    "inputTokens": 0,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 0,
+    "contextWindow": 200000,
+    "contextTokens": 0,
+    "percentage": 0
+  }
+}
