@@ -1,0 +1,72 @@
+/*
+ * Things theme: softer, Notion-like reading rhythm.
+ * Keep this as a standalone snippet so theme updates remain safe.
+ */
+
+body {
+  --notion-like-line-height: 1.72;
+  --notion-like-paragraph-space: 0.6em;
+  --notion-like-list-space: 0.35em;
+  --notion-like-heading-gap-top: 1.2em;
+  --notion-like-heading-gap-bottom: 0.55em;
+}
+
+body.theme-light,
+body.theme-dark {
+  --line-height: var(--notion-like-line-height);
+}
+
+.markdown-reading-view .markdown-preview-view,
+.markdown-source-view.mod-cm6 .cm-scroller {
+  line-height: var(--notion-like-line-height);
+}
+
+.markdown-reading-view .markdown-preview-view p,
+.markdown-reading-view .markdown-preview-view ul,
+.markdown-reading-view .markdown-preview-view ol,
+.markdown-reading-view .markdown-preview-view blockquote,
+.markdown-reading-view .markdown-preview-view .callout {
+  margin-top: var(--notion-like-paragraph-space);
+  margin-bottom: var(--notion-like-paragraph-space);
+}
+
+.markdown-reading-view .markdown-preview-view li {
+  margin-top: 0.18em;
+  margin-bottom: 0.18em;
+}
+
+.markdown-reading-view .markdown-preview-view :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: var(--notion-like-heading-gap-top);
+  margin-bottom: var(--notion-like-heading-gap-bottom);
+  line-height: 1.3;
+}
+
+.markdown-source-view.mod-cm6 .cm-content > .cm-line {
+  padding-top: 0.12em;
+  padding-bottom: 0.12em;
+}
+
+.markdown-source-view.mod-cm6 .cm-content > .HyperMD-list-line.cm-line,
+.markdown-source-view.mod-cm6 .cm-content > .HyperMD-quote.cm-line {
+  padding-top: 0.08em;
+  padding-bottom: 0.08em;
+}
+
+.markdown-source-view.mod-cm6 .cm-content > .HyperMD-header.cm-line {
+  padding-top: 0.3em;
+  padding-bottom: 0.12em;
+  line-height: 1.35;
+}
+
+.markdown-source-view.mod-cm6 .cm-content > .HyperMD-codeblock.cm-line,
+.markdown-source-view.mod-cm6 .cm-content > .HyperMD-codeblock-begin.cm-line,
+.markdown-source-view.mod-cm6 .cm-content > .HyperMD-codeblock-end.cm-line {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 1.5;
+}
+
+.markdown-source-view.mod-cm6 .cm-content > .cm-line:has(br:only-child) {
+  padding-top: 0.08em;
+  padding-bottom: 0.08em;
+}

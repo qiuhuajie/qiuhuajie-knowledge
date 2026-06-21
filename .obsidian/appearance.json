@@ -10,7 +10,8 @@
   "enabledCssSnippets": [
     "image",
     "image-center",
-    "光标所在行样式"
+    "光标所在行样式",
+    "things-notion-spacing"
   ],
   "showViewHeader": true,
   "showRibbon": true,

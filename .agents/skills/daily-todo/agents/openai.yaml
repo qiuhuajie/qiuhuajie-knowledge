@@ -1,0 +1,7 @@
+interface:
+  display_name: "Daily Todo"
+  short_description: "拆解任务并补分类标签，维护有序日程待办"
+  default_prompt: "Use $daily-todo to break down today work into a categorized daily plan and insert any timed tasks into the correct slot."
+
+policy:
+  allow_implicit_invocation: true

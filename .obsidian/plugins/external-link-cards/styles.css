@@ -1,0 +1,74 @@
+.external-link-card-container {
+  list-style: none;
+  margin-top: 0.45rem;
+  margin-bottom: 0.45rem;
+}
+
+.external-link-card {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  max-width: 760px;
+  min-height: 76px;
+  padding: 11px 12px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  background: var(--background-primary);
+  color: var(--text-normal);
+  text-decoration: none !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.external-link-card:hover {
+  border-color: var(--interactive-accent);
+  background: var(--background-secondary);
+}
+
+.external-link-card-favicon {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+}
+
+.external-link-card-body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.external-link-card-title {
+  overflow: hidden;
+  color: var(--text-normal);
+  font-weight: 600;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.external-link-card-description {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 0.9em;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.external-link-card-site {
+  overflow: hidden;
+  color: var(--text-faint);
+  font-size: 0.82em;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.external-link-card-image {
+  width: 96px;
+  height: 58px;
+  border-radius: 6px;
+  object-fit: cover;
+}

@@ -1,0 +1,9 @@
+{
+  "id": "default-iconize-tinotes",
+  "name": "Default Iconize TiNotes",
+  "version": "1.0.0",
+  "minAppVersion": "1.0.0",
+  "description": "Automatically assigns the TiNotes Iconize icon to newly created Markdown notes and folders.",
+  "author": "qiuhuajie",
+  "isDesktopOnly": false
+}

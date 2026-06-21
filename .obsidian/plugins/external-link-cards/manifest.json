@@ -1,0 +1,9 @@
+{
+  "id": "external-link-cards",
+  "name": "External Link Cards",
+  "version": "1.0.0",
+  "minAppVersion": "1.0.0",
+  "description": "Renders standalone external links as preview cards without changing the Markdown source.",
+  "author": "qiuhuajie",
+  "isDesktopOnly": false
+}

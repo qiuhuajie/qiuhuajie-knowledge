@@ -1,0 +1,9 @@
+{
+  "id": "collapse-descendant-folders",
+  "name": "Collapse Descendant Folders",
+  "version": "1.0.0",
+  "minAppVersion": "1.0.0",
+  "description": "Collapses all descendant folders whenever a parent folder is collapsed in the file explorer.",
+  "author": "qiuhuajie",
+  "isDesktopOnly": false
+}

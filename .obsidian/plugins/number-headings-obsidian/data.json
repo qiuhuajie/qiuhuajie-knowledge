@@ -1,13 +1,13 @@
 {
-  "skipTopLevel": false,
-  "firstLevel": 1,
-  "maxLevel": 6,
+  "skipTopLevel": true,
+  "firstLevel": 2,
+  "maxLevel": 5,
   "styleLevel1": "1",
   "styleLevelOther": "1",
   "auto": false,
   "separator": "",
   "contents": "",
   "skipHeadings": "",
-  "startAt": "",
+  "startAt": "1",
   "off": false
 }

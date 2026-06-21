@@ -3,7 +3,6 @@
   "obsidian-trim-whitespace",
   "obsidian-linter",
   "attachment-management",
-  "smart-connections",
   "templater-obsidian",
   "file-explorer-note-count",
   "obsidian-file-color",
@@ -22,7 +21,6 @@
   "editing-toolbar",
   "highlightr-plugin",
   "manual-sorting",
-  "dataview",
   "obsidian-local-images-plus",
   "pdf-plus",
   "obsidian-list-callouts",
@@ -33,5 +31,9 @@
   "obsidian-kanban",
   "obsidian-outliner",
   "easy-typing-obsidian",
-  "advanced-canvas"
+  "advanced-canvas",
+  "dataview",
+  "default-iconize-tinotes",
+  "collapse-descendant-folders",
+  "external-link-cards"
 ]

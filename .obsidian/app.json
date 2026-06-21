@@ -4,7 +4,7 @@
   "spellcheck": true,
   "promptDelete": false,
   "newFileLocation": "root",
-  "attachmentFolderPath": "/",
+  "attachmentFolderPath": "Attachment",
   "showLineNumber": false,
   "showInlineTitle": false,
   "foldIndent": true,
