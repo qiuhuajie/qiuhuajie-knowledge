@@ -1,7 +1,0 @@
-interface:
-  display_name: "Re-write Skill"
-  short_description: "归档资料收集笔记，前置总结，正文尽量保留原文并移动到合适目录"
-  default_prompt: "Use $re-write-skill to archive collected materials by adding a concise summary at the top, preserving the original article wording as much as possible, lightly optimizing layout, and moving the note into the most relevant directory."
-
-policy:
-  allow_implicit_invocation: true

@@ -16,3 +16,7 @@ gen
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
 .obsidian/cache/
+
+# Local agent and Claude workspace metadata
+.agents/skills/
+.claude/
