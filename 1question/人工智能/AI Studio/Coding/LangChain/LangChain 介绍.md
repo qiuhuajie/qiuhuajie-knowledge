@@ -1,3 +1,14 @@
+---
+title: "LangChain 介绍"
+tags:
+  - "人工智能"
+  - "人工智能/AI Studio"
+  - "人工智能/AI Studio/Coding"
+  - "LangChain"
+  - "AI Studio"
+  - "RAG"
+updated: 2026-04-16
+---
 # 一、LangChain 介绍
 ## 1. Philosophy
 1. LangChain 是一个面向 LLM 应用开发的模块化框架，核心目标是把大模型与提示词、外部数据、工具调用、记忆机制和工作流编排连接起来，让模型从“会聊天”升级为“能完成任务”的应用能力。
@@ -17,7 +28,6 @@
 	- 生态较丰富，便于接入向量数据库、搜索工具、文档加载器和调试平台。
 
 ## 2. 技术体系
-
 | 分类 | 组件/类型 | 说明 | 常见示例 |
 | --- | --- | --- | --- |
 | 核心库 | `langchain-core` | 提供基础抽象和通用接口，是整个生态的底层核心。 | Runnable、Prompt、Output Parser 等基础能力 |
@@ -29,9 +39,7 @@
 | 辅助能力 | `langsmith` | 用于调试、监控、链路追踪和评估。 | Trace、Observability、Evaluation |
 | 辅助能力 | `langserve` | 用于把 LangChain 应用快速暴露为服务接口。 | REST API 部署 |
 | 辅助能力 | `langgraph` | 适合构建更复杂、可控、有状态的图式工作流。 | 多步骤流程、循环任务、状态机式 Agent |
-
 ## 3. 核心模块
-
 | 模块 | 说明 | 核心价值 |
 | --- | --- | --- |
 | Model / LLM 接口 | 对不同模型提供统一封装，开发者可以用相似方式切换 OpenAI、Hugging Face、Gemini 等模型。 | 降低模型切换成本，减少供应商绑定。 |
@@ -40,11 +48,10 @@
 | Memory | 保存对话历史或中间上下文，必要时做摘要压缩以降低 token 消耗。 | 让多轮交互更连贯，增强上下文记忆。 |
 | Tool / Agent / MCP | Tool 用于封装搜索、数据库、脚本、API 等外部能力；Agent 负责按任务自动决策与编排工具；MCP 提供更规范的模型与外部能力连接方式。 | 解决“模型会想，但不会做”的问题。 |
 | RAG | 先读取文档、切分文本、向量化并写入向量数据库，再在提问时检索相关片段交给模型生成答案。 | 提升回答的准确性、时效性，并减少幻觉。 |
-
 # 二、Install LangChain
 1. python & pip env
 	![[IMG-20260407202401301.png|633]]
-	![[IMG-20260407202402465.png]]
+	![[IMG-20260407202402465.png|800]]
 2. To install the LangChain package:
 	```bash
 	pip3 install -U langchain # Requires Python 3.10+
@@ -67,17 +74,14 @@
 	```python
 	from dataclasses import dataclass
 	from langchain.tools import tool, ToolRuntime
-	
 	@tool # 定义工具
 	def get_weather_for_location(city: str) -> str:
 	    """Get weather for a given city."""
 	    return f"It's always sunny in {city}!"
-	
 	@dataclass # 定义上下文格式
 	class Context:
 	    """Custom runtime context schema."""
 	    user_id: str
-	 
 	@tool # 工具如何使用运行时上下文
 	def get_user_location(runtime: ToolRuntime[Context]) -> str:
 	    """Retrieve user information based on user ID."""
@@ -106,13 +110,11 @@
 6. 添加记忆：向Agent添加记忆，以在交互之间保持状态。 这允许Agent记住以前的对话和上下文。
 	```python
 	from langgraph.checkpoint.memory import InMemorySaver
-
 	checkpointer = InMemorySaver()
 	```
 1. 创建并运行Agent
 	```python
 	from langchain.agents.structured_output import ToolStrategy
-	
 	agent = create_agent(
 	    model=model,
 	    system_prompt=SYSTEM_PROMPT,
@@ -121,34 +123,28 @@
 	    response_format=ToolStrategy(ResponseFormat),
 	    checkpointer=checkpointer
 	)
-	
 	# `thread_id` is a unique identifier for a given conversation.
 	config = {"configurable": {"thread_id": "1"}}
-	
 	response = agent.invoke(
 	    {"messages": [{"role": "user", "content": "what is the weather outside?"}]},
 	    config=config,
 	    context=Context(user_id="1")
 	)
-	
 	print(response['structured_response'])
 	# ResponseFormat(
 	#     punny_response="Florida is still having a 'sun-derful' day! The sunshine is playing 'ray-dio' hits all day long! I'd say it's the perfect weather for some 'solar-bration'! If you were hoping for rain, I'm afraid that idea is all 'washed up' - the forecast remains 'clear-ly' brilliant!",
 	#     weather_conditions="It's always sunny in Florida!"
 	# )
-	
 	# Note that we can continue the conversation using the same `thread_id`.
 	response = agent.invoke(
 	    {"messages": [{"role": "user", "content": "thank you!"}]},
 	    config=config,
 	    context=Context(user_id="1")
 	)
-	
 	print(response['structured_response'])
 	# ResponseFormat(
 	#     punny_response="You're 'thund-erfully' welcome! It's always a 'breeze' to help you stay 'current' with the weather. I'm just 'cloud'-ing around waiting to 'shower' you with more forecasts whenever you need them. Have a 'sun-sational' day in the Florida sunshine!",
 	#     weather_conditions=None
 	# )
 	```
-
-	![[IMG-20260407202402721.png]]
+	![[IMG-20260407202402721.png|800]]

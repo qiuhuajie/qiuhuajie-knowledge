@@ -1,11 +1,21 @@
 ---
-Year: "2020"
+title: "通过 Dueling Deep-Q 网络进行用户行为预测的半在线计算卸载"
+tags:
+  - "论文笔记"
+  - "强化学习"
+  - "DQN"
+  - "边缘计算"
+  - "学术阅读"
+  - "方法总结"
+updated: 2026-04-16
+Year: '2020'
 Read: Done
 Fields:
   - Dueling DQN
 期刊: Digital Object Identifier
 关键字: https://github.com/snsong/soCoM
 ---
+
 - [[#Semi-Online Computational Offloading by Dueling Deep-Q Network for User Behavior Prediction]]
 - [[#1. 摘要]]
 - [[#2. 介绍]]

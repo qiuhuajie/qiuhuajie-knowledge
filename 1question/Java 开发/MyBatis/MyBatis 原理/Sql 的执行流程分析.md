@@ -1,7 +1,9 @@
+# Sql 的执行流程分析
+
 1. 当 获得 mapper 接口的代理类对象 empMapper 后
-1. empMapper 调用 mapper 接口中的方法，实际是调用了 MapperProxy 的 invoke 方法（动态代理）
-    
-    ```Java
+2. empMapper 调用 mapper 接口中的方法，实际是调用了 MapperProxy 的 invoke 方法（动态代理）
+
+    ```java
      //MapperProxy.class
      
      public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -16,10 +18,10 @@
          }
      }
     ```
-    
-1. `this.cachedInvoker(method)`：调用 MapperProxy 内部类 MapperMethodInvoker 中的方法 cachedInvoker( )
-    
-    ```Java
+
+3. `this.cachedInvoker(method)`：调用 MapperProxy 内部类 MapperMethodInvoker 中的方法 cachedInvoker( )
+
+    ```java
      //MapperProxy.class
      
      private MapperProxy.MapperMethodInvoker cachedInvoker(Method method) throws Throwable {
@@ -39,19 +41,20 @@
          }
      }
     ```
-    
-    在 new PlainMethodInvoker 对象时，构造参数需要 new 一个 MapperMethod 对象
-    
-    > [!important]
-    > 
-    > - **PlainMethodInvoker**：类是Mapper接口普通方法的调用类，它实现了MethodInvoker接口。其内部封装了MapperMethod实例
-    > 
-    > - **MapperMethod**：封装了Mapper接口中对应方法的信息，以及对应的SQL语句的信息；它是mapper接口与映射配置文件中SQL语句的桥梁
-    >     
-    >     ![[Attachment/1question/大数据/Java 开发/MyBatis/MyBatis 原理/IMG-20260405035413788.png|Untitled 359.png]]
-    >     
-    
-    ```Java
+
+    在 new  PlainMethodInvoker 对象时，构造参数需要 new 一个 MapperMethod 对象
+
+    <aside>
+    📌
+
+    - **PlainMethodInvoker**：类是Mapper接口普通方法的调用类，它实现了MethodInvoker接口。其内部封装了MapperMethod实例
+    - **MapperMethod**：封装了Mapper接口中对应方法的信息，以及对应的SQL语句的信息；它是mapper接口与映射配置文件中SQL语句的桥梁
+
+        ![Untitled](IMG-20260621001316256.png)
+
+    </aside>
+
+    ```java
      public class MapperMethod {
          //记录了 sql 语句，以及 sql 语句的类型
          private final MapperMethod.SqlCommand command;
@@ -65,10 +68,10 @@
          ......
      }
     ```
-    
-1. 跳出`cachedInvoker()`方法后，该方法返回得到的 PlainMethodInvoker 对象 继续调用其 `invoke()` 方法
-    
-    ```Java
+
+4. 跳出`cachedInvoker()`方法后，该方法返回得到的 PlainMethodInvoker 对象 继续调用其 `invoke()` 方法
+
+    ```java
      //MapperProxy.class（PlainMethodInvoker.class 是 MapperProxy的内部类）
      
      private static class PlainMethodInvoker implements MapperProxy.MapperMethodInvoker {
@@ -84,10 +87,10 @@
          }
      }
     ```
-    
-1. `mapperMethod.execute(sqlSession, args)`：
-    
-    ```Java
+
+5. `mapperMethod.execute(sqlSession, args)`：
+
+    ```java
      public Object execute(SqlSession sqlSession, Object[] args) {
          Object result;
          Object param;
@@ -142,10 +145,10 @@
          }
      }
     ```
-    
-1. `sqlSession.selectOne( )`，实际是 DefaultSqlSession.class对象调用 `selectList()` 方法
-    
-    ```Java
+
+6. `sqlSession.selectOne( )`，实际是 DefaultSqlSession.class对象调用 `selectList()` 方法
+
+    ```java
      //DefaultSqlSession.class
      
      public <T> T selectOne(String statement, Object parameter) {
@@ -162,10 +165,10 @@
          }
      }
     ```
-    
-1. `selectList()` 执行 sql 语句，返回查询结果
-    
-    ```Java
+
+7. `selectList()` 执行 sql 语句，返回查询结果
+
+    ```java
      //DefaultSqlSession.class
      
      private <E> List<E> selectList(String statement, Object parameter, RowBounds rowBounds, ResultHandler handler) {
@@ -185,5 +188,5 @@
          return var6;
      }
     ```
-    
-    ![[IMG-20260404031809163.png|Untitled 1 270.png]]
+
+    ![Untitled](IMG-20260621001316368.png)

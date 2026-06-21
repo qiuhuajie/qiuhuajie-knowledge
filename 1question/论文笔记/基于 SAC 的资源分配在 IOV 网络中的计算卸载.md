@@ -1,5 +1,14 @@
 ---
-Year: "2022"
+title: "基于 SAC 的资源分配在 IOV 网络中的计算卸载"
+tags:
+  - "论文笔记"
+  - "深度强化学习"
+  - "强化学习"
+  - "学术阅读"
+  - "方法总结"
+  - "研究问题"
+updated: 2026-04-16
+Year: '2022'
 Read: Not started
 Fields:
   - SCA

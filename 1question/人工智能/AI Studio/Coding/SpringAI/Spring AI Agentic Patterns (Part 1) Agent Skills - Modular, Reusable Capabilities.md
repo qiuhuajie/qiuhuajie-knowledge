@@ -1,3 +1,14 @@
+---
+title: "Spring AI Agentic Patterns (Part 1) Agent Skills - Modular, Reusable Capabilities"
+tags:
+  - "人工智能"
+  - "人工智能/AI Studio"
+  - "人工智能/AI Studio/Coding"
+  - "SpringAI"
+  - "AI Studio"
+  - "Spring Boot"
+updated: 2026-04-16
+---
 # Spring AI Agentic Patterns (Part 1) Agent Skills - Modular, Reusable Capabilities
 ## Subtitle: "可在你的环境中运行、与 LLM 无关的 Skills"
 
@@ -87,7 +98,6 @@ Skills 通过以下三步运行：
 ...
 **如果概念不熟悉或需要调研：**
 加载 \`research_methodology.md\` 获取详细指导。
-
 **如果用户提供了 YouTube 视频：**
 调用 \`uv run scripts/get_youtube_transcript.py <video_url_or_id>\`
 获取视频转录文本。
@@ -132,7 +142,6 @@ Skills 通过以下三步运行：
 ```java
 @SpringBootApplication
 public class Application {
-
     @Bean
     CommandLineRunner demo(ChatClient.Builder chatClientBuilder) {
         return args -> {
@@ -143,7 +152,6 @@ public class Application {
                 .defaultTools(FileSystemTools.builder().build())
                 .defaultTools(ShellTools.builder().build())
                 .build();
-
             String response = chatClient.prompt()
                 .user("Your task here")
                 .call()
@@ -152,7 +160,6 @@ public class Application {
     }
 }
 ```
-
 > **💡 生产提示：** 对于打包后的应用，你可以使用 Spring Resources 从 classpath 加载 skills：
 > 
 > ```java
@@ -172,9 +179,7 @@ cat > .claude/skills/code-reviewer/SKILL.md << 'EOF'
 name: code-reviewer
 description: 审查 Java 代码是否符合最佳实践、安全要求和 Spring Framework 约定。当用户要求 review、analyze 或 audit 代码时使用。
 ---
-
 # Code Reviewer
-
 ## Instructions
 When reviewing code:
 1. Check for security vulnerabilities (SQL injection, XSS, etc.)
@@ -193,7 +198,6 @@ String response = chatClient.prompt()
           "src/main/java/com/example/UserController.java")
     .call()
     .content();
-
 System.out.println(response);
 ```
 

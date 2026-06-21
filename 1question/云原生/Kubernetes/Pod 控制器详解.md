@@ -1,7 +1,0 @@
-[[1. Pod 控制器介绍]]
-[[2. ReplicaSet（RS）]]
-[[3. Deployment（Deploy）]]
-[[4. Horizontal Pod Autoscaler（HPA）]]
-[[5. DaemonSet（DS）]]
-[[6. Job]]
-[[7. CronJob(CJ)]]

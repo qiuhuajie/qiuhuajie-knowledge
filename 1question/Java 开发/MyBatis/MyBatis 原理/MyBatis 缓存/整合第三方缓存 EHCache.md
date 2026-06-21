@@ -1,7 +1,10 @@
+# 整合第三方缓存 EHCache
+
 # 1. **EHCache 的使用**
+
 1. 引入依赖
-    
-    ```XML
+
+    ```xml
      <!-- Mybatis EHCache整合包 -->
      <dependency>
          <groupId>org.mybatis.caches</groupId>
@@ -16,10 +19,10 @@
          <version>1.2.3</version>
      </dependency>
     ```
-    
-1. 创建EHCache的配置文件 **ehcache.xml**
-    
-    ```XML
+
+2. 创建EHCache的配置文件 **ehcache.xml**
+
+    ```xml
      <?xml version="1.0" encoding="utf-8" ?>
      <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="../config/ehcache.xsd">
@@ -39,31 +42,24 @@
          </defaultCache>
      </ehcache>
     ```
-    
+
     - `eternal`：缓存是否永远不销毁
-    
     - `maxElementsInMemory`：缓存可以存储的总记录量
-    
     - `overflowToDisk`：当缓存中的数据达到最大值时，是否把缓存数据写入磁盘
-    
     - `diskPersistent`：否启用强制命令将缓存出入磁盘
-    
     - `timeToIdleSeconds`：当缓存闲置时间超过该值，则缓存自动销毁，如果该值是0就意味着元素可以停顿无穷长的时间
-    
     - `timeToLiveSeconds`：缓存数据的生存时间，也就是一个元素从构建到消亡的最大时间间隔值， 这只能在元素不是永久驻留时有效，如果该值是0就意味着元素可以停顿无穷长的时间
-    
     - `memoryStoreEvictionPolicy`：缓存满了之后的淘汰算法
-    
-1. 设置二级缓存的类型
-    
-    ```XML
+3. 设置二级缓存的类型
+
+    ```xml
      <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
     ```
-    
-1. 加入logback日志：**存在SLF4J时，作为简易日志的log4j将失效**，此时我们需要借助SLF4J的具体实现logback来打印日志
-1. 创建 logback 的配置文件 **logback.xml**
-    
-    ```XML
+
+4. 加入logback日志：**存在SLF4J时，作为简易日志的log4j将失效**，此时我们需要借助SLF4J的具体实现logback来打印日志
+5. 创建 logback 的配置文件 **logback.xml**
+
+    ```xml
      <?xml version="1.0" encoding="UTF-8"?>
      <configuration debug="true">
          <!-- 指定日志输出的位置 -->
@@ -88,20 +84,27 @@
          <logger name="com.atguigu.crowd.mapper" level="DEBUG"/>
      </configuration>
     ```
-    
+
+
 # 2. 封装一个 **EHCache** 工具类
+
 包含着插入元素和读取元素操作
-```Java
+
+```java
 public class EncacheTemplete {
+
     private static CacheManager cacheManager;
     private static Ehcache fileCache;
+
     static {
         cacheManager = new CacheManager();
         fileCache = cacheManager.getCache("serviceCache");
     }
+
     public static <T> void put(String key, T value) {
         fileCache.put(new Element(key, value));
     }
+
     @SuppressWarnings("unchecked")
     public static <T> T get(String key) {
         Element el = fileCache.get(key);
@@ -109,9 +112,11 @@ public class EncacheTemplete {
             System.out.println("not found key: " + key);
             return null;
         }
+
         T t = (T) el.getObjectValue();
         return t;
     }
+
     /**
      * 根据key删除缓存
      */
@@ -119,6 +124,7 @@ public class EncacheTemplete {
         System.out.println("remove key:" + key);
         return fileCache.remove(key);
     }
+
     /**
      * 关闭cacheManager 对象
      */

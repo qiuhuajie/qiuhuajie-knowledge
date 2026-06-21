@@ -1,6 +1,9 @@
 ### Example user template template
 ### Example user template
 
+# macOS metadata
+.DS_Store
+
 # IntelliJ project files
 .idea
 *.iml
@@ -8,4 +11,8 @@ out
 gen
 .smart-env/
 .trash/
+
+# Obsidian local workspace state
 .obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/

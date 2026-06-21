@@ -1,14 +1,20 @@
-- [[#Maven 安装]]
-- [[#Maven 命令]]
-- [[#maven 中跳过单元测试]]
-- [[#父 POM 和 子 POM]]
-- [[#Maven 中的 DependencyManagement 和 Dependencies]]
-# Maven 安装
-> [!info] Maven安装与配置_mvn version-CSDN博客
+---
+title: "Maven"
+tags:
+  - "开发工具"
+  - "Maven"
+  - "Optional"
+  - "MyBatis"
+  - "Spring Boot"
+  - "Spring Cloud"
+updated: 2026-04-16
+---
+# 一、Maven 安装
+> ℹ️ Maven安装与配置_mvn version-CSDN博客
 > 文章浏览阅读10w+次，点赞683次，收藏2.
 > [https://blog.csdn.net/qq_38190185/article/details/115921070?ops_request_misc=%7B%22request%5Fid%22%3A%22171257460416800227456204%22%2C%22scm%22%3A%2220140713.130102334..%22%7D&request_id=171257460416800227456204&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-115921070-null-null.142^v100^control&utm_term=maven安装与配置&spm=1018.2226.3001.4187](https://blog.csdn.net/qq_38190185/article/details/115921070?ops_request_misc=%7B%22request%5Fid%22%3A%22171257460416800227456204%22%2C%22scm%22%3A%2220140713.130102334..%22%7D&request_id=171257460416800227456204&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-115921070-null-null.142^v100^control&utm_term=maven安装与配置&spm=1018.2226.3001.4187)
-# **Maven 命令**
-1. `**clean install**`
+# 二、Maven 命令
+1. **`clean install`**
     1. `clean`：执行清理删除已有target目录
     2. `install`：把打包生成的 jar 包和 pom文件安装到本地的仓库中
 
@@ -17,7 +23,7 @@
         ![[IMG-20260404032014216.png|Untitled 24.png]]
 
 2. `mvn clean package -DskipTests=true`
-# **maven 中跳过单元测试**
+# 三、maven 中跳过单元测试
 1. 方法一：引入依赖
 
     ```XML
@@ -33,11 +39,11 @@
 
     ![[IMG-20260404032014274.png|Untitled 1 5.png]]
 
-# 父 POM 和 子 POM
+# 四、父 POM 和 子 POM
 1. 父 POM
-    > [!important] **父工程创建完成执行**
-    > 
-    > `**mvn clean & install**` **将父工程发布到仓库方便子工程继承**
+    > 💡 **父工程创建完成执行**
+    >
+    > **`mvn clean & install`** **将父工程发布到仓库方便子工程继承**
     - 查看全部内容
 
         ```XML
@@ -216,7 +222,7 @@
                 </dependencies>
             </project>
             ```
-# **Maven 中的** `**DependencyManagement**` **和** `**Dependencies**`
+# 五、Maven 中的 `DependencyManagement` 和 `Dependencies`
 1. `DependencyManagement` 提供了一种管理依赖版本号的方式，通常在父 POM 中使用
     1. **如果子项目没有指定依赖的版本：**Maven 会沿着父子层次向上走，直到找到一个拥有 dependencyManagement 元素的项目，然后它就会使用这个dependencyManagement 元素中指定的版本号
     2. **如果子项目中指定了版本号：**那么会使用子项目中指定的依赖版本
@@ -226,3 +232,6 @@
     1. 如果有多个子项目都引用同一样依赖，则可以避免在每个使用的子项目里都声明一个版本号
     2. 这样当想升级或切换到另一个版本时，只需要在顶层父容器里更新，而不需要一个一个子项目的修改
     3. 另外如果某个子项目需要另外的一个版本，只需要声明version就可
+
+# 六、相关实战笔记
+1. [[Spring AI Alibaba 版本管理]]：把 `dependencyManagement`、父 `pom`、BOM 和外部版本清单导入，放进 `spring-ai-alibaba-starter-dashscope` 缺少 `version` 的真实排障案例里解释。

@@ -1,20 +1,32 @@
-- [[#1. 电商比价案例]]
-    - [[#1.1 需求]]
-    - [[#1.2 实现]]
-        - [[#一般做法：查完一家再查一家]]
-        - [[#使用 CompletableFuture 优化]]
-- [[#2. 自定义工具类 CompletableFutureUtils ⭐]]
-    - [[#2.1 维护的线程池]]
-    - [[#2.2 任务执行方法]]
-    - [[#2.3 在业务中使用]]
-        - [[#step1：两个长时间的查询接口做成并行]]
-        - [[#step2：阻塞获取查询结果]]
-- [[#3. 外卖商家端API的异步化]]
-# 1. 电商比价案例
-## 1.1 需求
+---
+title: "CF 实战"
+tags:
+  - "CompletableFuture"
+  - "并发编程"
+  - "异步"
+  - "线程"
+  - "线程池"
+  - "CompletableFutureUtils"
+updated: 2026-04-16
+---
+- [[#一、电商比价案例]]
+    - [[#1. 需求]]
+    - [[#2. 实现]]
+        - [[#2.1 一般做法：查完一家再查一家]]
+        - [[#2.2 使用 CompletableFuture 优化]]
+- [[#二、自定义工具类 CompletableFutureUtils]]
+    - [[#1. 维护的线程池]]
+    - [[#2. 任务执行方法]]
+    - [[#3. 在业务中使用]]
+        - [[#3.1 step1：两个长时间的查询接口做成并行]]
+        - [[#3.2 step2：阻塞获取查询结果]]
+- [[#三、外卖商家端API的异步化]]
+
+# 一、电商比价案例
+## 1. 需求
 1. 需求说明：同一款产品，同时搜索出同款产品在各大电商平台的售价
-1. 输出返回：出来结果希望是同款产品在不同地方的价格清单列表，返回一个 `List<String>`
-## 1.2 实现
+2. 输出返回：出来结果希望是同款产品在不同地方的价格清单列表，返回一个 `List<String>`
+## 2. 实现
 ```Java
 // 实体类：
 class NetMall{
@@ -30,7 +42,7 @@ class NetMall{
     }
 }
 ```
-### 一般做法：查完一家再查一家
+### 2.1 一般做法：查完一家再查一家
 ```Java
 public class CompletableFutureMallDemo {
     static List<NetMall> list = Arrays.asList(
@@ -65,12 +77,12 @@ public class CompletableFutureMallDemo {
 
 运行结果：
 
-![[Attachment/1question/大数据/Java 开发/JUC/线程池/CompletableFuture/IMG-20260405035413908.png|Untitled 473.png]]
+![[IMG-20260619225020111.png|428]]
 
-### 使用 CompletableFuture 优化
+### 2.2 使用 CompletableFuture 优化
 1. 对于分布式微服务的调用，按照实际业务，如果是无关联 step by step 的业务，可以尝试是否可以多箭齐发，同时调用
-1. 代码示例：
-    
+2. 代码示例：
+
     ```Java
     public class CompletableFutureMallDemo {
         static List<NetMall> list = Arrays.asList(
@@ -78,7 +90,6 @@ public class CompletableFutureMallDemo {
                 new NetMall("taobao"),
                 new NetMall("dangdang")
         );
-    
         // 使用 CompletableFuture
         public static List<String> getPriceByCompletableFuture (List<NetMall> list, String productName) {
             // 2.获取线程池
@@ -106,7 +117,6 @@ public class CompletableFutureMallDemo {
                 threadPool.shutdown();
             }
         }
-    
     		// 测试
         public static void main(String[] args) {
             long startTime = System.currentTimeMillis();
@@ -122,17 +132,13 @@ public class CompletableFutureMallDemo {
         }
     }
     ```
-    
 
     运行结果：
 
-    
+    ![[IMG-20260619225020256.png|410]]
 
-    ![[IMG-20260404031740171.png|Untitled 1 344.png]]
-
-    
-# 2. 自定义工具类 CompletableFutureUtils ⭐
-## 2.1 维护的线程池
+# 二、自定义工具类 CompletableFutureUtils
+## 1. 维护的线程池
 ```Java
 private ExecutorService executorService;
 public EnhanceCompletableFuture() {
@@ -142,9 +148,9 @@ public EnhanceCompletableFuture() {
             new SynchronousQueue<Runnable>(), namedThreadFactory, new CallerRunsPolicy());
 }
 ```
-## 2.2 任务执行方法
+## 2. 任务执行方法
 
-[[Export-e8249ac1-4ae1-42cd-83d5-041a266841fe/1question/Java 开发/Java/Java 8 新特性/Supplier|Supplier]][[Export-e8249ac1-4ae1-42cd-83d5-041a266841fe/1question/Java 开发/Java/Java 8 新特性/Supplier|Supplier]]
+* `Supplier<T>` 表示任务结果的提供者，函数式接口定义见 [[Supplier]]。
 
 ```Java
 public <T> CompletableFuture<T> supplyAsync(Supplier<T> supplier) {
@@ -160,7 +166,6 @@ public <T> CompletableFuture<T> supplyAsync(Supplier<T> supplier) {
             },
             executorService);
 }
-
 public CompletableFuture<Void> runAsync(Runnable runnable) {
     final RpcContext_inner rpcContext = EagleEye.getRpcContext();
     return CompletableFuture.runAsync(
@@ -175,8 +180,8 @@ public CompletableFuture<Void> runAsync(Runnable runnable) {
             executorService);
 }
 ```
-## 2.3 在业务中使用
-### step1：两个长时间的查询接口做成并行
+## 3. 在业务中使用
+### 3.1 step1：两个长时间的查询接口做成并行
 ```Java
 // 接口 1
 CompletableFuture<List<VisaRelatedItemDTO>> relatedFur = enhanceFuture.supplyAsync(() -> {
@@ -196,7 +201,7 @@ for (CompletableFuture<List<TravelItem>> completableFuture : completableFutures)
 		...
 }
 ```
-### step2：阻塞获取查询结果
+### 3.2 step2：阻塞获取查询结果
 
 `isDone()` + `get()`
 
@@ -204,6 +209,6 @@ for (CompletableFuture<List<TravelItem>> completableFuture : completableFutures)
 context.setSnick(sellerNickF.isDone() ? sellerNickF.get() : null);
 context.setPromotionInfoDO(promotionF.isDone() ? promotionF.get() : null);
 ```
-# 3. **外卖商家端API的异步化**
+# 三、外卖商家端API的异步化
 
-[[principle]]
+* https://tech.meituan.com/2022/05/12/principles-and-practices-of-completablefuture.html

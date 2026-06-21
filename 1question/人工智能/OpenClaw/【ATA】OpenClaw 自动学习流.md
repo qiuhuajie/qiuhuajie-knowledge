@@ -1,10 +1,20 @@
+---
+title: "【ATA】OpenClaw 自动学习流"
+tags:
+  - "人工智能"
+  - "人工智能/OpenClaw"
+  - "OpenClaw"
+  - "大模型"
+  - "模型原理"
+  - "算法应用"
+updated: 2026-04-16
+---
 # AI 更新太快学不过来？我用 OpenClaw 搭了套自动学习流
-
 ## 背景
 
 AI 发展速度太快，新工具和新技术层出不穷，学不过来。
 
-![](https://oss-ata.alibaba.com/article/2026/03/485a8e47-57dd-4dee-8b51-2d407d766a7e.png)
+![|800](https://oss-ata.alibaba.com/article/2026/03/485a8e47-57dd-4dee-8b51-2d407d766a7e.png)
 
 ## 解决方案
 
@@ -53,7 +63,6 @@ AI 发展速度太快，新工具和新技术层出不穷，学不过来。
 **报告内容包含**：基本信息、使用场景、优缺点、核心原理、设计思想、对你研究方向的启发。
 
 ## 4. 三条核心经验
-
 ### 举一反三
 
 类似场景都可创建 Skills：文章解读、研报解读、热点事件解读等。
@@ -75,7 +84,7 @@ AI 发展速度太快，新工具和新技术层出不穷，学不过来。
 
 ## 5. 总结
 
-![582](https://oss-ata.alibaba.com/article/2026/03/27fa3a3b-fb9e-4bd2-aa5a-e56de8c1abcd.png)
+![582|800](https://oss-ata.alibaba.com/article/2026/03/27fa3a3b-fb9e-4bd2-aa5a-e56de8c1abcd.png)
 
 安装好 OpenClaw 只是基础，关键是：
 

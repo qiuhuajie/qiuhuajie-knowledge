@@ -1,15 +1,22 @@
-> [!important] Redis支持TCP通信，因此我们可以使用Socket来模拟客户端，与Redis服务端建立连接：
-> 
+---
+title: "模拟Redis 客户端"
+tags:
+  - "中间件"
+  - "中间件/Redis"
+  - "中间件/Redis/Redis 原理"
+  - "模拟Redis 客户端"
+  - "通信协议"
+  - "Redis"
+updated: 2026-04-16
+---
+
+# 一、模拟Redis 客户端
+> 💡 Redis支持TCP通信，因此我们可以使用Socket来模拟客户端，与Redis服务端建立连接：
 > 例如：
-> 
 > 1. 要模拟客户端给服务端发送一个命令：`set name coolcoolcool`
-> 
-> 1. 则需要客户端根据`RESP`协议发送以下一串字符
->     
->     ![[IMG-20260405035437185.png|Untitled 438.png]]
->     
-> 
-> 1. 且服务端会返回`OK`，因此也需要在客户端把服务端的返回信息也解析后，打印在控制台
+> 2. 则需要客户端根据`RESP`协议发送以下一串字符
+> ![[IMG-20260620224127707.png|248]]
+> 3. 且服务端会返回`OK`，因此也需要在客户端把服务端的返回信息也解析后，打印在控制台
 ```Java
 public class main {
     static Socket socket;
@@ -23,12 +30,10 @@ public class main {
         try {
             //2. 建立TCP连接
             socket = new Socket(host,port);
-            
             //3. 获取输入流
             writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
             //4. 获取输出流
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream(),StandardCharsets.UTF_8));
-            
             //5.1 获取授权 auth 111111
             sendRequest("auth","111111");
             //5.2 接收响应
@@ -125,6 +130,9 @@ public class main {
     }
 }
 ```
+
 执行结果：
-![[IMG-20260404031939365.png|Untitled 1 324.png]]
-![[IMG-20260405035447774.png|Untitled 2 263.png]]
+
+![[IMG-20260620224129423.png|627]]
+
+![[IMG-20260620224135280.png|800]]

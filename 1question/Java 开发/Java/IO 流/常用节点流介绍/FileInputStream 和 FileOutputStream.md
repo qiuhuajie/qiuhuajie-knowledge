@@ -1,8 +1,22 @@
-# 1. 介绍
+---
+title: "FileInputStream 和 FileOutputStream"
+tags:
+  - "FileOutputStream"
+  - "FileInputStream"
+  - "IO流"
+  - "FileReader"
+  - "FileWriter"
+  - "Java基础"
+updated: 2026-04-16
+aliases:
+  - FileInputStream/FileOutputStream
+---
+
+# 一、介绍
 1. 通常**`FileInputStream`**流会用于以字节的方式去读取文件信息
-1. `**FileOutputStream**` 是文件的字节输出流
-# 2. 代码示例
-## 2.1 **FileInputStream**
+2. **`FileOutputStream`** 是文件的字节输出流
+# 二、代码示例
+## 1. FileInputStream
 ```Java
 public static void readFile() {
     FileInputStream fileInputStream = null;
@@ -28,13 +42,10 @@ public static void readFile() {
     }
 }
 ```
-
-> [!important] 注意：
-> 
+> 💡 注意：
 > - 流需要进行关闭操作
-> 
 > - 使用`read`函数的时候，当文件读取正常时候会返回实际的字节数
-## 2.2 **FileOutputStream**
+## 2. FileOutputStream
 ```Java
 public static void writeFileVersion1() {
     String filePath = "C:/Users/lenovo/Desktop/25inputs.txt";
@@ -55,45 +66,42 @@ public static void writeFileVersion1() {
     }
 }
 ```
-
-> [!important] 注意：
-> 
+> 💡 注意：
 > - 注意在`FileOutputStream`的构造函数中，可以通过定义第二个`append`参数去设置写入的模式（覆盖模式还是追加模式）
-> 
 > - 使用字符输入流的时候，即使没有走到`close`函数，数据也会被持久化写入到磁盘
-## 2.3 **实现复制图片的操作**
+## 3. 实现复制图片的操作
 - 图片是**字节**文件，不能使用`FileReader`和`FileWriter`操作，要使用字节流`fileInputStream`和`fileOutputStream`
 - 且`charsBuffer`数组要是字节类型的（`byte [ ]`）
-```Java
-public static void copy(){
-    FileInputStream fileInputStream = null;
-    FileOutputStream fileOutputStream = null;
-    try {
-        File file1 = new File("D:\\123.png");
-        File file2 = new File("D:\\111.png");
-        fileInputStream = new FileInputStream(file1);
-        fileOutputStream = new FileOutputStream(file2);
-        byte[] charsBuffer = new byte[1024];
-        //缓存数组大小通常写为1024
-        int read;
-        while ((read = fileInputStream.read(charsBuffer)) != -1){
-            fileOutputStream.write(charsBuffer,0,read);
-        }
-    } catch (IOException e) {
-        e.printStackTrace();
-    } finally {
+    ```Java
+    public static void copy(){
+        FileInputStream fileInputStream = null;
+        FileOutputStream fileOutputStream = null;
         try {
-            if(fileInputStream != null)
-                fileInputStream.close();
+            File file1 = new File("D:\\123.png");
+            File file2 = new File("D:\\111.png");
+            fileInputStream = new FileInputStream(file1);
+            fileOutputStream = new FileOutputStream(file2);
+            byte[] charsBuffer = new byte[1024];
+            //缓存数组大小通常写为1024
+            int read;
+            while ((read = fileInputStream.read(charsBuffer)) != -1){
+                fileOutputStream.write(charsBuffer,0,read);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        try {
-            if(fileOutputStream != null)
-                fileOutputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } finally {
+            try {
+                if(fileInputStream != null)
+                    fileInputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if(fileOutputStream != null)
+                    fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-}
-```
+    ```

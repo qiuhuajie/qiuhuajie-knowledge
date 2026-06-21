@@ -1,9 +1,19 @@
 ---
-Year: "2022"
+title: "利用多 Agent 深度强化学习在无人机辅助的人群感应中进行合作性数据感应和计算卸载"
+tags:
+  - "论文笔记"
+  - "Agent"
+  - "深度强化学习"
+  - "强化学习"
+  - "学术阅读"
+  - "方法总结"
+updated: 2026-04-16
+Year: '2022'
 Read: In progress
 Fields:
   - DDPG
 ---
+
 论文文件：
 # Cooperative Data Sensing and Computation Offloading in UAV-Assisted Crowdsensing With Multi-Agent Deep Reinforcement Learning
 期刊：

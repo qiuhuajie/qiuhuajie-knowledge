@@ -1,66 +1,46 @@
+# 分页插件 Pagehelper
+
 1. **添加依赖** pom.xml
-    
-    ```XML
+
+    ```xml
      <dependency>
          <groupId>com.github.pagehelper</groupId>
          <artifactId>pagehelper</artifactId>
          <version>5.2.0</version>
      </dependency>
     ```
-    
-1. **配置分页插件（mybatis 全局配置文件中）**
-    
-    ```XML
+
+2. **配置分页插件（mybatis 全局配置文件中）**
+
+    ```xml
      <plugins>
          <!--设置分页插件-->
          <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
      </plugins>
     ```
-    
-1. **分页插件的使用**
-    
-    1. 在**查询功能之前**使用 `**PageHelper.startPage(int pageNum, int pageSize)**` 开启分页功能
-        
+
+3. **分页插件的使用**
+    1. 在**查询功能之前**使用 **`PageHelper.startPage(int pageNum, int pageSize)`** 开启分页功能
         1. `pageNum`：当前页的页码
-        
-        1. `pageSize`：每页显示的条数
-        
-    
-    1. 在**查询获取list集合之后**，使用 `**PageInfo<T> pageInfo = new PageInfo<>(List<T> list, int navigatePages)**` 获取分页相关数据
-        
+        2. `pageSize`：每页显示的条数
+    2. 在**查询获取list集合之后**，使用 **`PageInfo<T> pageInfo = new PageInfo<>(List<T> list, int navigatePages)`** 获取分页相关数据
         1. `list`：分页之后的数据
-        
-        1. `navigatePages`：导航分页的页码数
-        
-    
-    1. 常用分页相关数据：
-        
+        2. `navigatePages`：导航分页的页码数
+    3. 常用分页相关数据：
         1. `pageNum`：当前页的页码
-        
-        1. `pageSize`：每页显示的条数
-        
-        1. `size`：当前页显示的真实条数
-        
-        1. `total`：总记录数
-        
-        1. `pages`：总页数
-        
-        1. `prePage`：上一页的页码
-        
-        1. `nextPage`：下一页的页码
-        
-        1. `isFirstPage`/`isLastPage`：是否为第一页/最后一页
-        
-        1. `hasPreviousPage`/`hasNextPage`：是否存在上一页/下一页
-        
-        1. `navigatePages`：导航分页的页码数
-        
-        1. `navigatepageNums`：导航分页的页码，[1,2,3,4,5]
-        
-    
-1. 测试：
-    
-    ```Java
+        2. `pageSize`：每页显示的条数
+        3. `size`：当前页显示的真实条数
+        4. `total`：总记录数
+        5. `pages`：总页数
+        6. `prePage`：上一页的页码
+        7. `nextPage`：下一页的页码
+        8. `isFirstPage`/`isLastPage`：是否为第一页/最后一页
+        9. `hasPreviousPage`/`hasNextPage`：是否存在上一页/下一页
+        10. `navigatePages`：导航分页的页码数
+        11. `navigatepageNums`：导航分页的页码，[1,2,3,4,5]
+4. 测试：
+
+    ```java
      @Test
      public void test() throws IOException {
          InputStream is = Resources.getResourceAsStream("mybatis-config.xml");
@@ -90,10 +70,10 @@
      
      }
     ```
-    
-1. 测试结果：
-    
-    ```Java
+
+5. 测试结果：
+
+    ```java
      Emp{eid=9, empName='j', age=null, dept='null'}
      Emp{eid=10, empName='r', age=null, dept='null'}
      Emp{eid=11, empName='d', age=null, dept='null'}

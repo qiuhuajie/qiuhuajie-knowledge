@@ -1,19 +1,20 @@
-- [[#1. 基本配置]]
-- [[#2. 镜像拉取策略]]
-- [[#3. 配置启动时命令]]
-- [[#4. 配置端口]]
-- [[#5. 资源配额]]
-- [[#6. 共享存储配置]]
-- [[#7. 配置环境变量]]
-# 1. **基本配置**
+---
+title: "Pod 基本配置"
+tags:
+  - "云原生"
+  - "云原生/Kubernetes"
+  - "云原生/Kubernetes/Pod"
+  - "Pod 基本配置"
+  - "yaml 配置文件操作 Pod"
+  - "Kubernetes"
+updated: 2026-04-16
+---
+# 一、基本配置
 1. 示例：定义一个比较简单 Pod 的配置，里面有两个容器：
-    
     - nginx：用 1.17.1 版本的 nginx 镜像创建，（nginx 是一个轻量级 web 容器）
-    
     - busybox：用 1.30 版本的 busybox 镜像创建，（busybox 是一个小巧的 linux 命令集合）
-    
-1. 创建 pod-base.yaml 文件
-    
+2. 创建 pod-base.yaml 文件
+
     ```YAML
      apiVersion: v1
      kind: Pod
@@ -29,54 +30,39 @@
        - name: busybox
          image: busybox:1.30
     ```
-    
-1. 创建 Pod
-    
+3. 创建 Pod
+
     ```Bash
      [root@master ~]# kubectl apply -f pod-base.yaml -n dev
      pod/pod-base created
     ```
-    
-1. 查看 Pod
-    
+4. 查看 Pod
+
     ```Bash
      [root@master ~]# kubectl get pod -n dev
      NAME                        READY   STATUS              RESTARTS   AGE
      pod-base                    0/2     ContainerCreating   0          40s
     ```
-    
     - busybox容器一直没有成功运行，是因为busybox并不是一个程序，而是类似于一个工具类的集合，kubernetes集群启动管理后，它会自动关闭
-    
     - 解决方法就是让其一直在运行，需要在启动时使用command配置（见下面）
-    
-1. 查看 Pod 详情
-    
+5. 查看 Pod 详情
+
     ```Bash
      [root@master ~]# kubectl describe pod -n dev
     ```
-    
-# 2. **镜像拉取策略**
+# 二、镜像拉取策略
 1. **`pod.spec.containers.imagePullPolicy`**：用于设置镜像拉取策略
-1. kubernetes支持配置**三种拉取策略：**
-    
+2. kubernetes支持配置**三种拉取策略：**
     - **`Always`**：每次创建 Pod 都总是去镜像仓库拉取镜像
-    
     - **`IfNotPresent`**：本地有则使用本地镜像，本地没有则从远程仓库拉取镜像（本地有就本地 本地没远程下载）
-    
     - **`Never`**：只使用本地镜像，从不去远程仓库拉取，本地没有就报错 （一直使用本地）
-    
-1. **默认值**说明：
-    
+3. **默认值**说明：
     1. 如果省略imagePullPolicy，策略默认为 always
-    
-    1. 如果镜像tag为具体版本号， 默认策略为 IfNotPresent
-    
-    1. 如果镜像tag为：latest（最终版本） ，默认策略为 always
-    
-1. 示例：
-    
+    2. 如果镜像tag为具体版本号， 默认策略为 IfNotPresent
+    3. 如果镜像tag为：latest（最终版本） ，默认策略为 always
+4. 示例：
     1. 创建pod-imagepullpolicy.yaml文件
-        
+
         ```YAML
          apiVersion: v1
          kind: Pod
@@ -91,46 +77,33 @@
            - name: busybox
              image: busybox:1.30
         ```
-        
-    
-    1. 创建 Pod
-        
+    2. 创建 Pod
+
         ```Bash
          [root@master ~]# kubectl apply -f pod-imagepullpolicy.yaml -n dev
          pod/pod-imagepullpolicy created
         ```
-        
-    
-    1. 查看 Pod
-        
+    3. 查看 Pod
+
         ```Bash
          [root@master ~]# kubectl get pod -n dev
          NAME                        READY   STATUS              RESTARTS   AGE
          pod-imagepullpolicy         0/2     ContainerCreating   0          16s
         ```
-        
-    
-    1. 查看 Pod 详情
-        
+    4. 查看 Pod 详情
+
         ```Bash
          [root@master ~]# kubectl describe pod -n dev
-         
          可以看到在拉取nginx镜像时有 Container image "nginx:1.17.1" already present on machine
         ```
-        
-    
-# 3. **配置启动时命令**
+# 三、配置启动时命令
 1. 在前面的案例中，一直有一个问题没有解决
-    
     1. 就是的busybox容器一直没有成功运行，是因为busybox并不是一个程序，而是类似于一个工具类的集合
-    
-    1. kubernetes集群启动管理后，它会自动关闭
-    
-1. 解决方法就是让其一直在运行，这就用到了 **`pod.spec.containers.command`** 配置
-1. 示例：在启动容器时，配置容器启动后要执行的命令
-    
+    2. kubernetes集群启动管理后，它会自动关闭
+2. 解决方法就是让其一直在运行，这就用到了 **`pod.spec.containers.command`** 配置
+3. 示例：在启动容器时，配置容器启动后要执行的命令
     1. 创建pod-command.yaml文件
-        
+
         ```YAML
          apiVersion: v1
          kind: Pod
@@ -145,14 +118,10 @@
              image: busybox:1.30
              command: ["/bin/sh","-c","touch /tmp/hello.txt;while true;do /bin/echo $(date +%T) >> /tmp/hello.txt; sleep 3; done;"]
         ```
-        
         命令说明：
-        
         ```Bash
          /bin/sh -c # 使用sh执行命令
-         
          touch /tmp/hello.txt # 创建一个/tmp/hello.txt 文件
-         
          # 每隔3秒向文件中写入当前时间
          while true;
          do
@@ -160,27 +129,21 @@
              sleep 3
          done;
         ```
-        
-    
-    1. 创建 Pod
-        
+    2. 创建 Pod
+
         ```Bash
          [root@master ~]# kubectl apply -f pod-command.yaml -n dev
          pod/pod-command created
         ```
-        
-    
-    1. 查看 Pod：可以看到 Pod 中的两个容器都正常运行
-        
+    3. 查看 Pod：可以看到 Pod 中的两个容器都正常运行
+
         ```Bash
          [root@master ~]# kubectl get pod -n dev
          NAME                        READY   STATUS             RESTARTS   AGE
          pod-command                 2/2     Running            0          3s
         ```
-        
-    
-    1. 进入容器查看 busybox 容器启动命令写入的数据
-        
+    4. 进入容器查看 busybox 容器启动命令写入的数据
+
         ```Bash
          [root@master ~]# kubectl exec pod-command -n dev -it -c busybox /bin/sh
          \kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
@@ -191,35 +154,22 @@
          07:15:11
          07:15:14
         ```
-        
-    
-1. 还有一个与命令相关的配置 **`pod.spec.containers.args`**
-    
+4. 还有一个与命令相关的配置 **`pod.spec.containers.args`**
     1. 通过上面发现 command 已经可以完成启动命令和传递参数的功能，为什么这里还要提供一个args选项，用于传递参数呢
-    
-    1. 这其实跟 docker 有点关系，kubernetes 中的 `command`、`args` 两项其实是实现覆盖 Dockerfile 中 `ENTRYPOINT` 的功能
-        
+    2. 这其实跟 docker 有点关系，kubernetes 中的 `command`、`args` 两项其实是实现覆盖 Dockerfile 中 `ENTRYPOINT` 的功能
         > Dockerfile 中 **`ENTRYPOINT`**：指定这个容器启动的时候要运行的命令，可以追加命令
-        
         ```Bash
          ENTRYPOINT /etc/init.d/tomcat7 start && /usr/sbin/sshd -D
         ```
-        
-    
-    1. 覆盖规则：
-        
+    3. 覆盖规则：
         1. 如果command和args均没有写，那么用Dockerfile的配置
-        
-        1. 如果command写了，但args没有写，那么Dockerfile默认的配置会被忽略，执行输入的command
-        
-        1. 如果command没写，但args写了，那么Dockerfile中配置的ENTRYPOINT的命令会被执行，使用当前args的参数
-        
-        1. 如果command和args都写了，那么Dockerfile的配置被忽略，执行command并追加上args参数
-        
-    
-# 4. **配置端口**
+        2. 如果command写了，但args没有写，那么Dockerfile默认的配置会被忽略，执行输入的command
+        3. 如果command没写，但args写了，那么Dockerfile中配置的ENTRYPOINT的命令会被执行，使用当前args的参数
+        4. 如果command和args都写了，那么Dockerfile的配置被忽略，执行command并追加上args参数
+
+# 四、配置端口
 1. **`pod.spec.containers.ports`** 支持的子选项
-    
+
     ```YAML
      [root@master ~]# kubectl explain pod.spec.containers.ports
      KIND:     Pod
@@ -232,11 +182,9 @@
         hostIP       <string>  # 要将外部端口绑定到的主机IP(一般省略)
         protocol     <string>  # 端口协议。必须是UDP、TCP或SCTP。默认为“TCP”
     ```
-    
-1. 示例：
-    
+2. 示例：
     1. 创建pod-ports.yaml文件
-        
+
         ```YAML
          apiVersion: v1
          kind: Pod
@@ -252,21 +200,16 @@
                containerPort: 80
                protocol: TCP
         ```
-        
-    
-    1. 创建 Pod
-        
+    2. 创建 Pod
+
         ```Bash
          [root@master ~]# kubectl create -f pod-ports.yaml
          pod/pod-ports created
         ```
-        
-    
-    1. 以 yaml 格式 查看 Pod 详细信息
-        
+    3. 以 yaml 格式 查看 Pod 详细信息
+
         ```YAML
          [root@master ~]# kubectl get pod pod-ports -n dev -o yaml
-         
          ...
          spec:
            containers:
@@ -278,7 +221,6 @@
                name: nginx-port
                protocol: TCP
          ...
-         
          hostIP: 192.168.10.173
            phase: Running
            podIP: 10.244.140.83      # 本Pod中所有容器同时使用此podIP
@@ -286,10 +228,8 @@
            - ip: 10.244.140.83
          ...
         ```
-        
-    
-    1. 由于使用的传输协议是 TCP，故使用 **套接字** `PodIP:containerPort`访问容器中的程序
-        
+    4. 由于使用的传输协议是 TCP，故使用 **套接字** `PodIP:containerPort`访问容器中的程序
+
         ```Plain
          [root@master ~]# curl 10.244.140.83:80
          <!DOCTYPE html>
@@ -297,21 +237,15 @@
          ... NGINX 首页
          </html>
         ```
-        
-    
-# 5. **资源配额**
+# 五、资源配额
 1. 容器中的程序要运行，肯定是要占用一定资源的，比如 cpu 和内存等，如果不对某个容器的资源做限制，那么它就**可能吃掉大量资源，导致其它容器无法运行**
-1. 针对这种情况，kubernetes 提供了对内存和 cpu 的资源进行配额的机制，这种机制主要通过 **`pod.spec.containers.resources`** 选项实现
-1. `resources` 有两个子选项：
-    
+2. 针对这种情况，kubernetes 提供了对内存和 cpu 的资源进行配额的机制，这种机制主要通过 **`pod.spec.containers.resources`** 选项实现
+3. `resources` 有两个子选项：
     - **`limits`**：（上限）用于限制运行时容器的最大占用资源，当容器占用资源超过limits时会被终止，并进行重启
-    
     - **`requests`** ：（下限）用于设置容器需要的最小资源，如果环境资源不够，容器将无法启动
-    
-1. 示例：
-    
+4. 示例：
     1. 创建 pod-resources.yaml 文件
-        
+
         ```YAML
          apiVersion: v1
          kind: Pod
@@ -330,92 +264,64 @@
                  cpu: "1"  # CPU限制，单位是core数
                  memory: "10Mi"  # 内存限制
         ```
-        
         - 在这对cpu和memory的单位：
-            
             - cpu：core数，可以为整数或小数
-            
             - memory： 内存大小，可以使用Gi、Mi、G、M等形式
-            
-        
-    
-    1. 创建 Pod
-        
+    2. 创建 Pod
+
         ```Plain
          [root@master ~]# kubectl create  -f pod-resources.yaml
          pod/pod-resources created
         ```
-        
-    
-    1. 查看发现pod运行正常
-        
+    3. 查看发现pod运行正常
+
         ```Plain
          [root@master ~]# kubectl get pod pod-resources -n dev
          NAME            READY   STATUS    RESTARTS   AGE
          pod-resources   1/1     Running   0          6s
         ```
-        
-    
-    1. 删除 Pod
-        
+    4. 删除 Pod
+
         ```Plain
          [root@master ~]# kubectl delete  -f pod-resources.yaml
          pod "pod-resources" deleted
         ```
-        
-    
-    1. 编辑pod，修改resources.requests.memory的值为10Gi
-        
+    5. 编辑pod，修改resources.requests.memory的值为10Gi
+
         ```Plain
                requests: # 请求资源（下限）
                  cpu: "1"
                  memory: "10Gi"
         ```
-        
-    
-    1. 再次启动pod
-        
+    6. 再次启动pod
+
         ```Plain
          [root@master ~]# kubectl create  -f pod-resources.yaml
          pod/pod-resources created
         ```
-        
-    
-    1. 查看Pod状态，发现Pod启动失败
-        
+    7. 查看Pod状态，发现Pod启动失败
+
         ```Plain
          [root@master ~]# kubectl get pod pod-resources -n dev
          NAME            READY   STATUS    RESTARTS   AGE
          pod-resources   0/1     Pending   0          5s
         ```
-        
-    
-    1. 查看pod详情会发现，如下提示
-        
+    8. 查看pod详情会发现，如下提示
+
         ```Plain
          [root@master ~]# kubectl describ pod pod-resources -n dev
-         
          nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate, 2 Insufficient memory.(内存不足)
         ```
-        
-    
-# 6. **共享存储配置**
+# 六、共享存储配置
 1. Pod 需要将日志数据、业务数据等 持久化
-    
     1. 一个 Pod 里的多个容器可以共享存储卷， 这个存储卷会被定义为 Pod 的一部分
-    
-    1. 并且 volume 数据卷可以挂载到该 Pod 中所有容器的文件系统上
-    
-1. 举例：
-    
+    2. 并且 volume 数据卷可以挂载到该 Pod 中所有容器的文件系统上
+2. 举例：
     1. 两个容器：一个负责读数据、一个负责写数据
-    
-    1. 如果两个容器之间存储相互隔离，读的容器是读不到写容器写入的数据的
-    
-    1. **将数据卷挂载到两个容器上，即可实现两个容器的存储共享**
-        
-        ![[IMG-20260404031955548.png|Untitled 522.png]]
-        
+    2. 如果两个容器之间存储相互隔离，读的容器是读不到写容器写入的数据的
+    3. **将数据卷挂载到两个容器上，即可实现两个容器的存储共享**
+
+        ![[IMG-20260404031955548.png|546]]
         ```YAML
          # pod_share-storage.yaml
          apiVersion: v1
@@ -440,15 +346,12 @@
            - name: data
              emptyDir: {}
         ```
-        
-    
-# 7. **配置环境变量**
+# 七、配置环境变量
 1. **了解：**这种方式不是很推荐，推荐将这些配置**单独存储在配置文件中**，（详见 8.数据存储）
-1. `pod.spec.containers.env`：用于在pod中的容器设置环境变量
-1. 示例
-    
+2. `pod.spec.containers.env`：用于在pod中的容器设置环境变量
+3. 示例
     1. 创建pod-env.yaml文件，内容如下：
-        
+
         ```Plain
          apiVersion: v1
          kind: Pod
@@ -466,18 +369,14 @@
              - name: "password"
                value: "123456"
         ```
-        
-    
-    1. 创建Pod
-        
+    2. 创建Pod
+
         ```Plain
          [root@master ~]# kubectl create -f pod-env.yaml
          pod/pod-env created
         ```
-        
-    
-    1. 进入容器，输出环境变量
-        
+    3. 进入容器，输出环境变量
+
         ```Plain
          [root@master ~]# kubectl exec pod-env -n dev -c busybox -it /bin/sh
          / # echo $username

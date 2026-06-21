@@ -1,18 +1,18 @@
-- [[#1. 算法介绍]]
-- [[#2. 树 BFS]]
-    - [[#📑111. 二叉树的最小深度]]
-    - [[#📑剑指 Offer 32 - I. 从上到下打印二叉树⚔️]]
-    - [[#📑107. 二叉树的层序遍历 II（反向的：剑指 Offer 32 - II. 从上到下打印二叉树 II⚔️）]]
-    - [[#📑103. 二叉树的锯齿形层序遍历（剑指 Offer 32 - III. 从上到下打印二叉树 III⚔️）]]
-    - [[#📑117. 填充每个节点的下一个右侧节点指针 II]]
-    - [[#📑100. 相同的树]]
-    - [[#📑剑指 Offer 28. 对称的二叉树⚔️]]
-- [[#3. 矩阵数组 BFS]]
-    - [[#📑994. 腐烂的橘子🔥]]
-    - [[#📑207. 课程表🔥]]
-    - [[#📑752. 打开转盘锁]]
-- [[#4. 双向 BFS]]
-# 1. 算法介绍
+- [[#一、算法介绍]]
+- [[#二、树 BFS]]
+    - [[#1. 📑111. 二叉树的最小深度]]
+    - [[#2. 📑剑指 Offer 32 - I. 从上到下打印二叉树⚔️]]
+    - [[#3. 📑107. 二叉树的层序遍历 II（反向的：剑指 Offer 32 - II. 从上到下打印二叉树 II⚔️）]]
+    - [[#4. 📑103. 二叉树的锯齿形层序遍历（剑指 Offer 32 - III. 从上到下打印二叉树 III⚔️）]]
+    - [[#5. 📑117. 填充每个节点的下一个右侧节点指针 II]]
+    - [[#6. 📑100. 相同的树]]
+    - [[#7. 📑剑指 Offer 28. 对称的二叉树⚔️]]
+- [[#三、矩阵数组 BFS]]
+    - [[#1. 📑994. 腐烂的橘子🔥]]
+    - [[#2. 📑207. 课程表🔥]]
+    - [[#3. 📑752. 打开转盘锁]]
+- [[#四、双向 BFS]]
+# 一、算法介绍
 1. 广度优先遍历呈现出「一层一层向外扩张」的特点，**先看到的结点先遍历，后看到的结点后遍历**，因此「广度优先遍历」可以借助「队列」实现
 2. 核心思想：
     1. 把问题抽象成一张图，从每一个点开始，向外扩散
@@ -63,10 +63,9 @@
         }
     }
     ```
-# 2. 树 BFS
-## **📑111. 二叉树的最小深度**
-> [!info] 力扣
-> 
+# 二、树 BFS
+## 1. 📑111. 二叉树的最小深度
+> ℹ️ 力扣
 > [https://leetcode.cn/problems/minimum-depth-of-binary-tree/](https://leetcode.cn/problems/minimum-depth-of-binary-tree/)
 1. 问题描述：
 
@@ -121,7 +120,7 @@
         return depth;
     }
     ```
-## **📑剑指 Offer 32 - I. 从上到下打印二叉树**⚔️
+## 2. 📑剑指 Offer 32 - I. 从上到下打印二叉树⚔️
 1. 问题描述：
 
     ```Plain
@@ -134,13 +133,12 @@
     ```
 3. 代码：**==在 leetcode 网站直接写，编写不习惯，还是有很多注意不到的编译错误==**
 
-    ![[Attachment/1question/人工智能/LeetBook/遍历算法/IMG-20260405035400275.png|Untitled 27.png|415]]
+    ![[IMG-20260620204023015.png|Untitled 27.png|415]]
 
-    ![[IMG-20260405035400269.png|Untitled 1 8.png|442]]
+    ![[IMG-20260620204023109.png|430]]
 
-## **📑107. 二叉树的层序遍历 II（反向的：剑指 Offer 32 - II. 从上到下打印二叉树 II**⚔️）
-> [!info] 力扣
-> 
+## 3. 📑107. 二叉树的层序遍历 II（反向的：剑指 Offer 32 - II. 从上到下打印二叉树 II⚔️）
+> ℹ️ 力扣
 > [https://leetcode.cn/problems/binary-tree-level-order-traversal-ii/](https://leetcode.cn/problems/binary-tree-level-order-traversal-ii/)
 1. 问题描述：
 
@@ -187,9 +185,8 @@
             return res;
         }
     ```
-## **📑103. 二叉树的锯齿形层序遍历（剑指 Offer 32 - III. 从上到下打印二叉树 III**⚔️**）**
-> [!info] 力扣
-> 
+## 4. 📑103. 二叉树的锯齿形层序遍历（剑指 Offer 32 - III. 从上到下打印二叉树 III⚔️）
+> ℹ️ 力扣
 > [https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/](https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/)
 1. 问题描述：
 
@@ -243,7 +240,7 @@
         return res;
     }
     ```
-## **📑117. 填充每个节点的下一个右侧节点指针 II**
+## 5. 📑117. 填充每个节点的下一个右侧节点指针 II
 1. 问题描述：
 
     ```Plain
@@ -252,15 +249,14 @@
     ```
 2. 示例：
 
-    ![[IMG-20260405035402100.png|Untitled 2 7.png|520]]
+    ![[IMG-20260620204023193.png|573]]
 
 3. 代码：
 
-    ![[IMG-20260404031856500.png|Untitled 3 7.png|492]]
+    ![[IMG-20260620204023267.png|420]]
 
-## **📑100. 相同的树**
-> [!info] 力扣
-> 
+## 6. 📑100. 相同的树
+> ℹ️ 力扣
 > [https://leetcode.cn/problems/same-tree/description/](https://leetcode.cn/problems/same-tree/description/)
 1. 问题描述：
 
@@ -329,7 +325,7 @@
             return true;
         }
     ```
-## **📑剑指 Offer 28. 对称的二叉树**⚔️
+## 7. 📑剑指 Offer 28. 对称的二叉树⚔️
 1. 问题描述：
 
     ```Plain
@@ -349,7 +345,7 @@
     ```
 2. 代码：
     - 递归
-        ![[IMG-20260404031856559.png|Untitled 4 6.png|804]]
+        ![[IMG-20260620204023356.png|Untitled 4 6.png|804]]
         ```Java
         public boolean isSymmetric(TreeNode root) {
             return process(root, root);
@@ -363,7 +359,7 @@
     - 层序遍历
         - 对数做两次层序遍历，一个从左往右向队列中加元素，一个从右往左向队列中加元素，将层序遍历的结果记录在两个 list 中，最后比较两个 list 是否相同
         - 优化：可以使用一个队列来层序遍历，且直接在出队时就比较元素，也省去记录的 list
-            ![[IMG-20260405035407917.png|Untitled 5 6.png|388]]
+            ![[IMG-20260620204023403.png|Untitled 5 6.png|388]]
         ```Java
          public boolean isSymmetric(TreeNode root) {
             LinkedList<TreeNode> queue = new LinkedList<>();
@@ -391,9 +387,9 @@
             return true;
         }
         ```
-# 3. 矩阵数组 BFS
-## **📑994. 腐烂的橘子**🔥
-> [!info] 力扣（LeetCode）官网 - 全球极客挚爱的技术成长平台
+# 三、矩阵数组 BFS
+## 1. 📑994. 腐烂的橘子🔥
+> ℹ️ 力扣（LeetCode）官网 - 全球极客挚爱的技术成长平台
 > 备战技术面试？力扣提供海量技术面试资源，帮助你高效提升编程技能，轻松拿下世界 IT 名企 Dream Offer。
 > [https://leetcode.cn/problems/rotting-oranges/](https://leetcode.cn/problems/rotting-oranges/)
 1. 问题描述：
@@ -408,7 +404,7 @@
     ```
 2. 示例：
 
-    ![[IMG-20260405035409881.png|Untitled 6 6.png|649]]
+    ![[IMG-20260620204023444.png|Untitled 6 6.png|649]]
 
 3. 代码：
 
@@ -476,7 +472,7 @@
         }
     }
     ```
-## **📑207. 课程表**🔥
+## 2. 📑207. 课程表🔥
 1. 问题描述：
 
     ```Plain
@@ -499,7 +495,7 @@
     ```
 3. 代码：
 
-    ![[IMG-20260405035411464.png|Untitled 7 6.png|486]]
+    ![[IMG-20260620204023482.png|Untitled 7 6.png|486]]
 
     ```Java
      public boolean canFinish(int numCourses, int[][] prerequisites) {
@@ -542,9 +538,8 @@
         return numCourses == 0;
     }
     ```
-## **📑752. 打开转盘锁**
-> [!info] 力扣
-> 
+## 3. 📑752. 打开转盘锁
+> ℹ️ 力扣
 > [https://leetcode.cn/problems/open-the-lock/](https://leetcode.cn/problems/open-the-lock/)
 1. 问题描述：
 
@@ -572,10 +567,9 @@
 	输出：-1
 	解释：无法旋转到目标数字且不被锁定。
 	```
-
 3. 代码：
 
-# 4. 双向 BFS
+# 四、双向 BFS
 
 **📑**
 

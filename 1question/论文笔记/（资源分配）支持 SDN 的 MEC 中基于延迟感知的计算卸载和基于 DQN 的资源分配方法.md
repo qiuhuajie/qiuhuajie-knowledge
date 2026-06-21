@@ -1,5 +1,14 @@
 ---
-Year: "2021"
+title: "（资源分配）支持 SDN 的 MEC 中基于延迟感知的计算卸载和基于 DQN 的资源分配方法"
+tags:
+  - "论文笔记"
+  - "深度强化学习"
+  - "强化学习"
+  - "DQN"
+  - "边缘计算"
+  - "学术阅读"
+updated: 2026-04-16
+Year: '2021'
 Read: Not started
 Fields:
   - DQN

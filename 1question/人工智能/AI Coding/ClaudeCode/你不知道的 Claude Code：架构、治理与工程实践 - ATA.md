@@ -1,20 +1,21 @@
 ---
-title: 你不知道的 Claude Code：架构、治理与工程实践
+title: "你不知道的 Claude Code：架构、治理与工程实践"
+tags:
+  - "人工智能"
+  - "人工智能/AI Coding"
+  - "人工智能/AI Coding/ClaudeCode"
+  - "ClaudeCode"
+  - "AI Coding"
+  - "堆内存"
+updated: 2026-04-16
 aliases:
   - Claude Code 架构、治理与工程实践
   - Claude Code 工程治理笔记
-tags:
-  - AI/ClaudeCode
-  - AI/Agent
-  - 工程实践
-  - 上下文工程
 author: 汤威（侑夕）
 source: ATA 技术社区
 status: distilled
 ---
-
 # 你不知道的 Claude Code：架构、治理与工程实践
-
 > [!abstract]
 > 这篇文章真正想讲的，不是 Claude Code 有哪些“炫技功能”，而是如何把它当成一个可治理、可约束、可验证的工程系统来使用。
 > 
@@ -26,7 +27,6 @@ status: distilled
 > - 没有 verifier 的 agent，只是在“自我感觉完成”。
 
 ## 文章信息
-
 - 作者：汤威（侑夕）
 - 来源：ATA 技术社区
 - 原文信息：3 月 12 日发表，3 月 20 日更新
@@ -34,7 +34,6 @@ status: distilled
 - 备注：这份笔记是整理版，去掉了网页噪声、站点控件和重复目录，只保留核心观点与可复用片段
 
 ## 关联笔记
-
 - [[Claude Code 命令]]
 - [[Claude Code 源码深度架构分析 - ATA]]
 - [[How We Use Skills]]
@@ -135,7 +134,6 @@ Claude Code 的核心不是“回答问题”，而是一个代理循环：
 - 接了多个 server 之后，还没开始读代码，就已经先损失了一大块上下文。
 
 ### 3.2 推荐的上下文分层
-
 ```text
 始终常驻   -> CLAUDE.md：项目契约 / 构建命令 / 禁止事项
 按路径加载 -> rules：语言 / 目录 / 文件类型规则
@@ -147,7 +145,6 @@ Claude Code 的核心不是“回答问题”，而是一个代理循环：
 这其实是在做一件事：把不同“生命周期”的信息放到对应层次，而不是全部塞给系统 prompt。
 
 ### 3.3 上下文治理最佳实践
-
 - 保持 `CLAUDE.md` 短、硬、可执行，优先写命令、约束和架构边界。
 - 大型参考文档不要塞进 `SKILL.md` 正文，拆去 supporting files。
 - 用 `.claude/rules/` 承担路径和语言差异，不要让根 `CLAUDE.md` 变成大杂烩。
@@ -180,9 +177,7 @@ Claude Code 的核心不是“回答问题”，而是一个代理循环：
 
 ```markdown
 ## Compact Instructions
-
 When compressing, preserve in priority order:
-
 1. Architecture decisions (NEVER summarize)
 2. Modified files and their key changes
 3. Current verification status (pass/fail)
@@ -211,7 +206,6 @@ When compressing, preserve in priority order:
 作者反复强调，Skill 和“保存的 Prompt”不是一回事。
 
 ### 4.1 一个好 Skill 应该具备什么
-
 - 描述要告诉模型“什么时候该用我”
 - 有完整步骤、输入、输出和停止条件
 - 正文只放导航和核心约束
@@ -229,18 +223,13 @@ When compressing, preserve in priority order:
 也就是先给索引，再拉细节，而不是一次性把百科全书塞进上下文。
 
 ### 4.3 Skill 的 3 种典型类型
-
 1. 检查清单型
    适合发布前核对、质量门禁、交付前检查。
-
 2. 工作流型
    适合高风险但步骤标准化的操作，例如配置迁移、数据库迁移、回滚流程。
-
 3. 领域专家型
    适合故障诊断、复杂决策、证据收集和固定判断框架。
-
 ### 4.4 Skills 的反模式
-
 - 描述过宽，导致什么任务都可能触发
 - 正文过长，把 runbook 全塞进 `SKILL.md`
 - 一个 Skill 同时承担 review、deploy、debug、docs、incident
@@ -270,7 +259,6 @@ When compressing, preserve in priority order:
 | 错误信息 | 告诉模型如何修正 | 只给 opaque error code |
 
 ### 5.2 作者总结的工具设计原则
-
 - 按系统和资源分层命名，例如 `github_pr_*`、`jira_issue_*`
 - 对大响应提供 `concise / detailed` 等返回级别
 - 错误信息要能教模型修正
@@ -292,7 +280,6 @@ When compressing, preserve in priority order:
 - 不要把关键行为埋在 flag、注释或文本约定里
 
 ### 5.4 什么时候不该再加 Tool
-
 - shell 已经能可靠完成
 - 需求本质上是静态知识，不是真实交互
 - 更像是工作流约束，适合做成 Skill
@@ -343,7 +330,6 @@ When compressing, preserve in priority order:
 - 一定要限制 Hook 输出长度，否则 Hook 反而会污染上下文
 
 ### 6.1 三层叠加很重要
-
 - `CLAUDE.md`：声明必须遵守什么
 - `Skill`：告诉模型如何执行
 - `Hook`：在关键路径上做硬校验
@@ -362,7 +348,6 @@ When compressing, preserve in priority order:
 这些都容易把主线程上下文污染掉。交给 Subagent 做，主线程只接收摘要。
 
 ### 7.1 配置时必须显式约束
-
 - `tools` / `disallowedTools`
 - `model`
 - `maxTurns`
@@ -375,7 +360,6 @@ When compressing, preserve in priority order:
 - 需要动文件时最好隔离文件系统
 
 ### 7.2 常见反模式
-
 - 子代理权限和主线程一样宽
 - 输出格式不固定，主线程无法消费
 - 子任务之间强依赖，却硬拆成多个 agent
@@ -398,7 +382,6 @@ Prompt 顺序大致如下：
 能保持稳定前缀，就能提高缓存命中率；命中率高，成本和延迟都会更友好。
 
 ### 8.2 会破坏缓存的行为
-
 - 在系统 Prompt 里塞时间戳
 - 非确定性地打乱工具定义顺序
 - 会话中途增删工具
@@ -437,27 +420,21 @@ Prompt 顺序大致如下：
 > “Claude 说完成了”没有工程意义，关键是你能不能验证它做对了、做错了怎么回滚、过程是否可审计。
 
 ### 9.1 Verifier 的层级
-
 - 最低层：退出码、lint、typecheck、unit test
 - 中间层：集成测试、截图对比、contract test、smoke test
 - 更高层：生产日志验证、监控指标、人工审查清单
 
 ### 9.2 最好把验证写在 Prompt、Skill 和 CLAUDE.md 里
-
 ```markdown
 ## Verification
-
 For backend changes:
-
 - Run `make test` and `make lint`
 - For API changes, update contract tests under `tests/contracts/`
 
 For UI changes:
-
 - Capture before/after screenshots if visual
 
 Definition of done:
-
 - All tests pass
 - Lint passes
 - No TODO left behind unless explicitly tracked
@@ -473,16 +450,13 @@ Definition of done:
 这些命令本质上都在帮助你主动管理上下文，而不是等系统自动救火。
 
 ### 10.1 上下文管理
-
 ```bash
 /context
 /clear
 /compact
 /memory
 ```
-
 ### 10.2 能力与治理
-
 ```bash
 /mcp
 /hooks
@@ -490,9 +464,7 @@ Definition of done:
 /sandbox
 /model
 ```
-
 ### 10.3 会话连续性与并行
-
 ```bash
 claude --continue
 claude --resume
@@ -501,9 +473,7 @@ claude --worktree
 claude -p "prompt"
 claude -p --output-format json
 ```
-
 ### 10.4 作者特别推荐的几个点
-
 - `/simplify`：改完代码后做快速多维审查
 - `/rewind`：沿错误路径探索太久时很好用
 - `/btw`：问侧问题而不污染主任务上下文
@@ -520,7 +490,6 @@ claude -p --output-format json
 - 不是大而全的项目说明书
 
 ### 11.1 应该放什么
-
 - 如何 build / test / run
 - 关键目录结构与模块边界
 - 代码风格和命名约束
@@ -529,7 +498,6 @@ claude -p --output-format json
 - Compact Instructions
 
 ### 11.2 不该放什么
-
 - 大段背景介绍
 - 完整 API 文档
 - 空泛原则
@@ -537,12 +505,9 @@ claude -p --output-format json
 - 低频任务知识和大量资料
 
 ### 11.3 可复用模板
-
 ```markdown
 # Project Contract
-
 ## Build And Test
-
 - Install: `pnpm install`
 - Dev: `pnpm dev`
 - Test: `pnpm test`
@@ -550,47 +515,38 @@ claude -p --output-format json
 - Lint: `pnpm lint`
 
 ## Architecture Boundaries
-
 - HTTP handlers live in `src/http/handlers/`
 - Domain logic lives in `src/domain/`
 - Do not put persistence logic in handlers
 - Shared types live in `src/contracts/`
 
 ## Coding Conventions
-
 - Prefer pure functions in domain layer
 - Do not introduce new global state without explicit justification
 - Reuse existing error types from `src/errors/`
 
 ## Safety Rails
-
 ### NEVER
-
 - Modify `.env`, lockfiles, or CI secrets without explicit approval
 - Remove feature flags without searching all call sites
 - Commit without running tests
 
 ### ALWAYS
-
 - Show diff before committing
 - Update CHANGELOG for user-facing changes
 
 ## Verification
-
 - Backend changes: `make test` + `make lint`
 - API changes: update contract tests under `tests/contracts/`
 - UI changes: capture before/after screenshots
 
 ## Compact Instructions
-
 Preserve:
-
 1. Architecture decisions
 2. Modified files and key changes
 3. Current verification status
 4. Open risks, TODOs, rollback notes
 ```
-
 ### 11.4 一个很实用的习惯
 
 每次纠正 Claude 的错误后，让它顺手更新自己的 `CLAUDE.md`：
@@ -600,7 +556,6 @@ Preserve:
 这个习惯的本质，是把一次性纠偏变成长期契约。
 
 ## 12. 作者自己的新经验
-
 ### 12.1 “环境透明”非常重要
 
 作者在自己做 Rust + Lua 终端工具时发现：
@@ -625,7 +580,6 @@ Preserve:
 这样比最后一次性跑全量检查更省时间。
 
 ### 12.3 一套比较完整的工程布局
-
 ```text
 Project/
 ├── CLAUDE.md
@@ -704,9 +658,6 @@ npx skills add hiclaude/health -a claude-code -s health -g -y
 7. 在长会话里主动用 `/context`、`/clear`、`/compact` 管理上下文。
 
 ## 适合反复回看的句子
-
 > 问题常常不在 prompt，而在上下文、能力、约束、隔离和验证的设计。
-
 > Skill 负责方法，Hook 负责强制，Subagent 负责隔离，Verifier 负责兜底。
-
 > Claude Code 不是一个“更聪明的聊天框”，而是一个需要治理的 agent 系统。

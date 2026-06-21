@@ -1,9 +1,16 @@
-- [[#1. 资源的一级属性]]
-- [[#2. 子属性]]
-- [[#3. Pod 的资源清单 yaml 文件示例]]
-
-> [!important] **配置一个 Pod 主要就是编写 Pod 中 yaml 的`pod.spec.containers` 属性，及其子属性**
-> 
+---
+title: "资源清单 yaml 文件"
+tags:
+  - "云原生"
+  - "云原生/Kubernetes"
+  - "云原生/Kubernetes/Pod"
+  - "资源清单 yaml 文件"
+  - "yaml 配置文件操作 Pod"
+  - "Kubernetes"
+updated: 2026-04-16
+---
+> 💡 **配置一个 Pod 主要就是编写 Pod 中 yaml 的`pod.spec.containers` 属性，及其子属性**
+>
 > ```Bash
 >  [root@master ~]# kubectl explain pod.spec.containers
 >  KIND:     Pod
@@ -19,14 +26,14 @@
 >     ports    <[]Object>     # 容器需要暴露的端口号列表
 >     resources <Object>      # 资源限制和资源请求的设置
 > ```
-# 1. **资源的一级属性**
+# 一、资源的一级属性
 主要包含5部分：
 - `apiVersion <string>` 版本，由kubernetes内部定义，版本号必须可以用 kubectl api-versions 查询到
 - `kind <string>` 类型，由kubernetes内部定义，版本号必须可以用 kubectl api-resources 查询到
 - `metadata <Object>` 元数据，主要是资源标识和说明，常用的有`name`、`namespace`、`labels`等
 - `spec <Object>` 描述，这是配置中最重要的一部分，里面是对各种资源配置的详细描述
 - `status <Object>` 状态信息，里面的内容不需要定义，由kubernetes自动生成
-# 2. **子属性**
+# 二、子属性
 spec是接下来研究的重点，spec 的常见子属性:
 - `containers <[]Object>` 容器列表，用于定义容器的详细信息
 - `nodeName <String>` 根据nodeName的值将pod调度到指定的Node节点上（不使用 Schedule 调度器调度）
@@ -35,19 +42,14 @@ spec是接下来研究的重点，spec 的常见子属性:
 - `volumes <[]Object>`存储卷，用于定义Pod上面挂在的存储信息
 - `restartPolicy <string>` 重启策略，表示Pod在遇到故障的时候的处理策略
 1. 也可以使用命令来逐层查看 资源属性的配置
-    
     1. `kubectl explain 资源类型`：查看某种资源可以配置的一级属性
-    
-    1. `kubectl explain 资源类型.属性` ：查看属性的子属性
-        
+    2. `kubectl explain 资源类型.属性` ：查看属性的子属性
+
         ```Plain
          [root@master ~]# kubectl explain pod
-         
          [root@master ~]# kubectl explain pod.metadata
         ```
-        
-    
-# 3. Pod 的资源清单 yaml 文件示例
+# 三、Pod 的资源清单 yaml 文件示例
 ```YAML
  apiVersion: v1     \#必选，版本号，例如v1
  kind: Pod       　 \#必选，资源类型，例如 Pod

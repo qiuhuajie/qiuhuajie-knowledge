@@ -1,31 +1,40 @@
-# 1. 介绍
+---
+title: "BufferedInputStream 和 BufferedOutputStream"
+tags:
+  - "BufferedInputStream"
+  - "BufferedOutputStream"
+  - "Buffer"
+  - "IO流"
+  - "InputStream"
+  - "OutputStream"
+updated: 2026-04-16
+aliases:
+  - BufferedInputStream/BufferedOutputStream
+---
+
+# 一、介绍
 1. 这类流在传统的字节流基础上做了一层包装，单纯的字节节点流每次处理数据读取或者写入的时候都是直接对磁盘进行字节为单位的io操作，所以性能方面会有一定的缺陷
-1. 缓冲字节流的出现就是通过引入一个缓冲 **`Buffer`** 的来**优化这种多次读写操作导致的io性能不足的设计**
-1. 缓存区的工作原理：
-    
+2. 缓冲字节流的出现就是通过引入一个缓冲 **`Buffer`** 的来**优化这种多次读写操作导致的io性能不足的设计**
+3. 缓存区的工作原理：
     1. 缓冲字节处理流的内部存在一个叫做 `buffer` 的缓冲区，每次写入数据的时候都会往缓冲区中写入数据，当缓冲区积攒了足够多的数据后再一次性写回到数据源中
-        
-        ```Java
-        public class BufferedInputStream extends FilterInputStream {
-        
-            private static int DEFAULT_BUFFER_SIZE = 8192;   // 8k
-            ...
-            public BufferedInputStream(InputStream in) {
-                this(in, DEFAULT_BUFFER_SIZE);
-            }
-        		...
+
+    ```Java
+    public class BufferedInputStream extends FilterInputStream {
+        private static int DEFAULT_BUFFER_SIZE = 8192;   // 8k
+        ...
+        public BufferedInputStream(InputStream in) {
+            this(in, DEFAULT_BUFFER_SIZE);
         }
-        ```
-        
-    
-    1. 这种设计思路相比原先的一次写一次io要高效更多，由于 buffer 在内存中，而从内存中读取要比从磁盘中读取效率高
-        
-        ![[Attachment/1question/大数据/Java 开发/Java/IO 流/常用处理流介绍/IMG-20260405035413932.png|Untitled 454.png]]
-        
-    
-1. `BufferedInputStream`和`BufferedOutputStream`内部采用了修饰器模式，通过构造函数注入一个`java.io.InputStream/java.io.OutputStream`对象，从而达到可以注入多种字节输入输出流
-# 2. 代码示例
-## 2.1 基于字节为单位实现文件拷贝
+    		...
+    }
+    ```
+    2. 这种设计思路相比原先的一次写一次io要高效更多，由于 buffer 在内存中，而从内存中读取要比从磁盘中读取效率高
+
+    ![[IMG-20260620222029578.png|587]]
+
+4. `BufferedInputStream`和`BufferedOutputStream`内部采用了修饰器模式，通过构造函数注入一个`java.io.InputStream/java.io.OutputStream`对象，从而达到可以注入多种字节输入输出流
+# 二、代码示例
+## 1. 基于字节为单位实现文件拷贝
 ```Java
 public static void fileCopyByByte(String sourceFile, String destPath){
     BufferedInputStream bufferedInputStream = null;
@@ -55,13 +64,10 @@ public static void fileCopyByByte(String sourceFile, String destPath){
     }
 }
 ```
-
-> [!important] 注意：
-> 
+> 💡 注意：
 > - 当关闭流的时候只需要关闭外界包装的字节缓冲流即可，它的`close`操作会触发对应的字节流内部的`close`函数
-> 
 > - 使用缓冲处理流的时候要记得调用`close`或者`flush`操作才能将实际数据真正写入到磁盘当中
-## 2.2 **文本文件**的复制操作
+## 2. 文本文件的复制操作
 ```Java
 public static void fileCopyByByte(String sourceFile, String destPath){
     BufferedReader bufferedReader = null;
@@ -91,7 +97,7 @@ public static void fileCopyByByte(String sourceFile, String destPath){
     }
 }
 ```
-## 2.3 实现图片的加密：(解密同理)
+## 3. 实现图片的加密：(解密同理)
 ```Java
 byte[] bytes = new byte[1024];
 int read;

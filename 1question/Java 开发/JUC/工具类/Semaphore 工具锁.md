@@ -1,32 +1,40 @@
-- [[#1. 介绍]]
-- [[#2. 代码示例]]
-- [[#3. Semaphore 原理]]
-    - [[#3.1 加锁解锁流程]]
-    - [[#3.2 源码]]
-# 1. 介绍
+---
+title: "Semaphore 工具锁"
+tags:
+  - "Semaphore"
+  - "加锁解锁流程"
+  - "并发编程"
+  - "同步"
+  - "线程"
+  - "AQS"
+updated: 2026-04-16
+---
+- [[#一、介绍]]
+- [[#二、代码示例]]
+- [[#三、Semaphore 原理]]
+    - [[#1. 加锁解锁流程]]
+    - [[#2. 源码]]
+
+# 一、介绍
 1. Semaphore 其底层也是由 AQS 提供支持的一个同步器锁，相对简单，更像是一个工具锁，用来简化实现线程间的通讯
-    
-    ![[IMG-20260404031737241.png|Untitled 308.png]]
-    
-1. Semaphore 与 ReentrantLock 的内部类的结构相同，类内部总共存在 Sync、NonfairSync、FairSync 三个类，默认是一个 非公平锁
-1. **可以用来**==**限制能同时访问共享资源的线程上限**==**，可以理解为停车场门口的空闲车位的数量提示牌**
-    
+
+    ![[IMG-20260619224137192.png|576]]
+
+2. Semaphore 与 ReentrantLock 的内部类的结构相同，类内部总共存在 Sync、NonfairSync、FairSync 三个类，默认是一个 非公平锁
+3. **可以用来**==**限制能同时访问共享资源的线程上限**==**，可以理解为停车场门口的空闲车位的数量提示牌**
     1. 和 LockSupport 类似，也是使用 **许可** 的概念来控制线程上限，这个许可数可以在构造方法中传入
-        
-        ![[IMG-20260404031737294.png|Untitled 1 233.png]]
-        
-    
-    1. **实际就是这个许可数量赋值给了同步器中的 `state`**
-    
-    ![[IMG-20260404031737367.png|Untitled 2 197.png]]
-    
-1. API 方法
-    
+
+        ![[IMG-20260619224137285.png|301]]
+
+    2. 实际就是这个许可数量赋值给了同步器中的 **`state`**
+
+    ![[IMG-20260619224137352.png|197]]
+
+4. API 方法
     1. **`acquire()`**、**`acquire(int permits)`**：此方法从信号量获取一个（多个）许可，在提供一个许可前一直将线程阻塞，或者线程被中断
-    
-    1. **`release()`**、**`release(int permits)`**：此方法释放一个（多个）许可，将其返回给信号量
-    
-# 2. 代码示例
+    2. **`release()`**、**`release(int permits)`**：此方法释放一个（多个）许可，将其返回给信号量
+
+# 二、代码示例
 ```Java
 public class test {
     public static void main(String[] args) throws InterruptedException {
@@ -56,7 +64,9 @@ public class test {
     }
 }
 ```
+
 **运行结果：可以看到**==**启动了 10 个线程，但是在同一时刻只能有 3 个线程在执行**==
+
 ```Java
 Thread-1 running...
 Thread-2 running...
@@ -79,38 +89,36 @@ Thread-7 end...
 Thread-9 running...
 Thread-9 end...
 ```
-# 3. Semaphore 原理
-## 3.1 加锁解锁流程
+# 三、Semaphore 原理
+## 1. 加锁解锁流程
 1. Semaphore 有点像一个停车场，permits 就好像停车位数量，当线程获得了 permits 就像是获得了停车位，然后停车场显示空余车位减一
-1. 刚开始，**permits（**`**state**`**）为 3**，这时 5 个线程来获取资源
-    
-    ![[IMG-20260405035421936.png|Untitled 3 151.png]]
-    
-1. 假设其中 Thread-1，Thread-2，Thread-4 cas 竞争成功，而 Thread-0 和 Thread-3 竞争失败，进入 AQS 队列park 阻塞
-    
-    ![[IMG-20260405035428731.png|Untitled 4 124.png]]
-    
-1. 这时 Thread-4 释放了 permits，状态如下
-    
-    ![[IMG-20260405035441814.png|Untitled 5 103.png]]
-    
-1. 接下来 Thread-0 竞争成功，permits 再次设置为 0，设置自己为 head 节点，断开原来的 head 节点，unpark 接下来的 Thread-3 节点，但由于 permits 是 0，因此 Thread-3 在尝试不成功后再次进入 park 状态
-    
-    ![[IMG-20260405035503358.png|Untitled 6 86.png]]
-    
-## 3.2 源码
+2. 刚开始，**permits（**`state`**）为 3**，这时 5 个线程来获取资源
+
+    ![[IMG-20260619224137420.png|469]]
+
+3. 假设其中 Thread-1，Thread-2，Thread-4 cas 竞争成功，而 Thread-0 和 Thread-3 竞争失败，进入 AQS 队列park 阻塞
+
+    ![[IMG-20260619224137503.png|873]]
+
+4. 这时 Thread-4 释放了 permits，状态如下
+
+    ![[IMG-20260619224137567.png|864]]
+
+5. 接下来 Thread-0 竞争成功，permits 再次设置为 0，设置自己为 head 节点，断开原来的 head 节点，unpark 接下来的 Thread-3 节点，但由于 permits 是 0，因此 Thread-3 在尝试不成功后再次进入 park 状态
+
+    ![[IMG-20260619224137629.png|720]]
+
+## 2. 源码
 ```Java
 // 内部类，继承自AQS
 abstract static class Sync extends AbstractQueuedSynchronizer {
     // 版本号
     private static final long serialVersionUID = 1192457210091910933L;
-    
     // 构造函数
     Sync(int permits) {
         // 设置状态数
         setState(permits);
     }
-    
     // 获取许可
     final int getPermits() {
         return getState();
@@ -127,7 +135,6 @@ abstract static class Sync extends AbstractQueuedSynchronizer {
                 return remaining;
         }
     }
-    
     // 共享模式下进行释放
     protected final boolean tryReleaseShared(int releases) {
         for (;;) { // 无限循环
