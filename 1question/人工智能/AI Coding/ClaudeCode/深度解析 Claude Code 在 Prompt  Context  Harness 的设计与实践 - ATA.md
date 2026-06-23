@@ -30,7 +30,9 @@ source_url: https://ata.atatech.org/articles/11020605711
 
 ## 我的整理
 ### 一句话结论
+
 Claude Code 的卓越体验不仅来自 Claude 基座模型的强大，更来自 CLI 程序在 Prompt 动态组装、上下文压缩与记忆、多 Agent 分工、安全沙箱和主循环工程等维度的极致工程设计。
+
 ### 全文主线
 1. Prompt Engineering：System Prompt 的静态 + 动态模块化组装、优先级决策、缓存分块。
 2. Context Engineering：CLAUDE.md 四层路径设计、三层渐进式压缩体系（MicroCompact → Session Memory Compact → Full LLM Compact）、Memdir 结构化记忆系统。
@@ -47,13 +49,17 @@ Claude Code 的卓越体验不仅来自 Claude 基座模型的强大，更来自
 
 ---
 ## 正文整理
+
 以下正文以原文内容和结构为主，仅做排版整理。
+
 ## 1. 背景
 1. 前几天作者写了一篇对 OpenClaw 的深度解析文章，深入探讨了 OpenClaw 在 Prompt Engineering（提示词工程）、Context Engineering（上下文工程）以及 Harness Engineering（驾驭工程/脚手架工程）等维度上所做的很多值得学习和落地的工作。
 2. Claude Code 是一个非常好用的 AI Coding Agent，使用时经常会感觉到令人"Amazing"的时刻，因为其对长程任务、复杂度较高的任务完成得比较出色。除了 Claude Opus 4.6 基座模型本身的强大之外，Claude Code 这个 CLI 程序里的工程设计也绝对是"顶级"的——在 Claude Code 之外的地方使用 Claude API 时，相比 Claude Code 也会感觉有所逊色，这说明在模型之外，Claude Code 的很多设计极其"增色"。
 
 ![[IMG-20260417012404540.png]]
+
 3. 作者的视角不在具体的前后端工程实现上，而是关注"如何设计一个好用的 Agent 系统"，因此和之前分析 OpenClaw 一样，从 Prompt Engineering、Context Engineering 和 Harness Engineering 三个维度展开分析 Claude Code 的设计思路，提炼可复用的方法论。本文所分析的所有信息均来自于网络他人整理的公开信息，仅供学习研究之用。
+
 4. Prompt Engineering → Context Engineering → Harness Engineering 被称作是现代 AI 系统的三大关键阶段，分别聚焦于"如何说"、"让 AI 看什么"以及"构建怎样的运行环境"，三者层层递进，共同致力于提升大模型在复杂任务中的可靠性与可控性。做一个 95 分的 Agent 系统，直接通过 Prompt Engineering 拿到 90+ 分是非常不现实的，顶多 70+ 分；通过 Context Engineering 可提高到 80~85 分；最后再通过 Harness Engineering 的约束，才能再提升到 90~95 分。
 
 ## 2. Prompt Engineering：静态与动态信息的组装
@@ -123,6 +129,7 @@ brief,                  // KAIROS 简报
 15. 静态 Prompt 部分（每个用户都有）：
 
 **模块 1：身份介绍（Intro Section）**
+
 ```java
 You are an interactive agent that helps users with software engineering tasks.
 Use the instructions below and the tools available to you to assist the user.
@@ -133,8 +140,11 @@ malicious purposes.
 IMPORTANT: You must NEVER generate or guess URLs for the user unless you are
 confident that the URLs are for helping the user with programming.
 ```
+
 小细节：如果用户设置了自定义输出风格（Output Style），开头的 "with software engineering tasks" 会变成 "according to your Output Style below"。
+
 **模块 2：系统行为规则（System Section）**
+
 ```java
 # System
 - All text you output outside of tool use is displayed to the user.
@@ -145,7 +155,9 @@ confident that the URLs are for helping the user with programming.
 - The system will automatically compress prior messages as it approaches
   context limits.
 ```
+
 **模块 3：任务执行指南（Doing Tasks Section）**
+
 ```java
 # Doing Tasks
 - You are highly capable and often allow users to complete ambitious tasks.
@@ -275,16 +287,24 @@ confident that the URLs are for helping the user with programming.
 45. 这是六大 Agent 中设计最精妙、提示词最长的一个。有五种设计哲学：
 
 **设计哲学一：红蓝对抗**
+
 "You are a verification specialist. Your job is not to confirm the implementation works — it's to try to break it." ——专门给代码挑刺的。
+
 **设计哲学二：不要随便给 PASS**
+
 指出了两个典型问题：
+
 * 验证逃避（Verification Avoidance）：找各种理由不去真的运行它。
 * 被前 80% 迷惑：看到漂亮的 UI 或通过的测试就倾向给 PASS，而没注意到剩下的问题。
 
 **设计哲学三：严格的权限控制**
+
 它只能看，不能改。唯一的例外是可以往 `/tmp` 写临时测试脚本，用完要自己清理。不被允许调用子 Agent、编辑文件等工具。
+
 **设计哲学四：按变更类型分类的验证策略**
+
 为十几种变更类型定义了专门的验证策略：
+
 * 前端变更：启动开发服务器 → 浏览器自动化 → 检查子资源加载
 * 后端/API：启动服务 → curl 测试端点 → 验证响应结构 → 测试错误处理
 * CLI/脚本：用代表性输入运行 → 验证 stdout/stderr/退出码
@@ -295,7 +315,9 @@ confident that the URLs are for helping the user with programming.
 * 移动端：清理构建 → 模拟器安装 → dump UI 树 → 点击验证
 
 **设计哲学五：反偷懒话术**
+
 有一组"AI 常见的自我开脱话术"逐一拆穿：
+
 * "代码看起来是对的"——看起来不是验证，运行它
 * "实现者的测试已经通过了"——实现者也是 AI，独立验证
 * "这大概没问题"——"大概"不是"验证过了"，运行它
@@ -380,10 +402,15 @@ confident that the URLs are for helping the user with programming.
 | 文件操作 | PreFileEdit | 文件编辑前 |
 | 文件操作 | PostFileEdit | 文件编辑后 |
 | 文件操作 | PreFileWrite | 文件写入前 |
+
 58. 钩子 Hook 机制的强大之处不仅在于"监听"，更在于"干预"。所有 Hook 的执行结果都支持返回结构化的 JSON 数据：
+
 	* 阻断执行：返回 `{ "blocked": true, "reason": "..." }` 可直接熔断高危操作。
+
 	* 动态篡改：通过 `{ "input": {...} }` 或 `{ "output": {...} }`，Hook 可以实时修正工具的输入参数或清洗输出结果。
+
 	* 反馈注入：利用 `{ "message": "..." }`，Hook 可以向对话流中插入系统提示或用户通知。
+
 59. 配置通常集中在 `settings.json` 中，通过声明式的方式定义匹配规则和执行命令。系统在工程层面引入了严格的超时保护机制：`TOOL_HOOK_EXECUTION_TIMEOUT_MS`（默认 10 分钟），任何 Hook 一旦超时就将被强制终止。
 
 ## 5. 有趣的彩蛋
@@ -412,7 +439,9 @@ confident that the URLs are for helping the user with programming.
 66. 这是 Claude Code 中"最可爱"的功能——可以用 `/buddy` 命令"孵化"一个专属于你的电子宠物。提供了十几种宠物，从常见的猫、鸭子、企鹅，到奇怪的水蜥、仙人掌、蘑菇，甚至还有一个叫"chonk"（胖墩）的物种。每个物种都是手工绘制的 ASCII 艺术精灵，5 行 12 字符宽，还有多帧动画！
 
 ![[IMG-20260417012404724.png]]
+
 67. 宠物是由用户 ID 通过 Mulberry32 伪随机数生成器确定性生成的——同一个用户永远得到同一只宠物，不能通过刷新来"重新抽卡"。稀有度系统：common（60%）、uncommon（25%）、rare（10%）、epic（4%）、legendary（1%）。稀有度影响：
+
 * 帽子：普通宠物没帽子，稀有以上可以戴皇冠、高礼帽、螺旋桨帽、光环、巫师帽、毛线帽、甚至头顶一只小鸭子
 * 属性点数：稀有度越高，属性基础值越高
 * 闪光（Shiny）：1% 概率是闪光版
@@ -423,4 +452,5 @@ confident that the URLs are for helping the user with programming.
 70. 在当下这个从"用大模型"转向"用好大模型"的时间节点，如何构建一套卓越的 Agent 系统，驱使基座大模型稳定、高效且可控地攻克复杂、长程任务，是需要持续关注和努力攻克的命题。
 
 ---
+
 📢 作者的其他 AI / Agent / LLM 系列文章可参考原文末尾的链接列表。
