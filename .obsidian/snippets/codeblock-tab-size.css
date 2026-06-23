@@ -1,0 +1,24 @@
+/*
+ * Reading mode code block spacing.
+ * tab-size controls real tab characters; word-spacing lightly tightens spaces.
+ */
+:root {
+  --reading-codeblock-tab-size: 6;
+  --reading-codeblock-space-adjust: 0.5ch;
+  --reading-codeblock-gutter-padding: 16px;
+  --reading-codeblock-vertical-padding: 8px;
+}
+
+.markdown-reading-view {
+  --line-number-gutter-padding: var(--reading-codeblock-gutter-padding);
+  --code-padding: var(--reading-codeblock-vertical-padding);
+}
+
+.markdown-reading-view .markdown-rendered pre,
+.markdown-reading-view .markdown-rendered pre code,
+.markdown-reading-view .markdown-rendered pre code *,
+.markdown-reading-view .markdown-rendered .codeblock-customizer-line-text,
+.markdown-reading-view .markdown-rendered .codeblock-customizer-line-text * {
+  tab-size: var(--reading-codeblock-tab-size);
+  word-spacing: var(--reading-codeblock-space-adjust);
+}

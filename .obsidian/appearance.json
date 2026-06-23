@@ -11,7 +11,8 @@
     "image",
     "image-center",
     "光标所在行样式",
-    "things-notion-spacing"
+    "things-notion-spacing",
+    "codeblock-tab-size"
   ],
   "showViewHeader": true,
   "showRibbon": true,
