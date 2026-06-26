@@ -1242,6 +1242,33 @@
       "siteName": "ata.atatech.org",
       "image": "",
       "favicon": "https://icons.duckduckgo.com/ip3/ata.atatech.org.ico"
+    },
+    "https://agentskills.io/": {
+      "url": "https://agentskills.io/",
+      "hostname": "agentskills.io",
+      "title": "Agent Skills Overview - Agent Skills",
+      "description": "A standardized way to give AI agents new capabilities and expertise.",
+      "siteName": "Agent Skills",
+      "image": "https://agent-skills.mintlify.app/mintlify-assets/_next/image?url=%2F_mintlify%2Fapi%2Fog%3Fdivision%3DDocumentation%26title%3DAgent%2BSkills%2BOverview%26description%3DA%2Bstandardized%2Bway%2Bto%2Bgive%2BAI%2Bagents%2Bnew%2Bcapabilities%2Band%2Bexpertise.%26primaryColor%3D%25237f7f7f%26lightColor%3D%2523bfbfbf%26darkColor%3D%2523404040%26backgroundLight%3D%2523ffffff%26backgroundDark%3D%25230d0d0f&w=1200&q=100",
+      "favicon": "https://icons.duckduckgo.com/ip3/agentskills.io.ico"
+    },
+    "https://github.com/anthropics/skills/tree/main/template": {
+      "url": "https://github.com/anthropics/skills/tree/main/template",
+      "hostname": "github.com",
+      "title": "skills/template at main · anthropics/skills",
+      "description": "Public repository for Agent Skills. Contribute to anthropics/skills development by creating an account on GitHub.",
+      "siteName": "GitHub",
+      "image": "https://opengraph.githubassets.com/afd58608dfcc6ed397965a51b6a7dcbe5304a8c294fd26480f3f33d0527e616d/anthropics/skills",
+      "favicon": "https://icons.duckduckgo.com/ip3/github.com.ico"
+    },
+    "https://github.com/anthropics/skills/tree/main/spec": {
+      "url": "https://github.com/anthropics/skills/tree/main/spec",
+      "hostname": "github.com",
+      "title": "skills/spec at main · anthropics/skills",
+      "description": "Public repository for Agent Skills. Contribute to anthropics/skills development by creating an account on GitHub.",
+      "siteName": "GitHub",
+      "image": "https://opengraph.githubassets.com/afd58608dfcc6ed397965a51b6a7dcbe5304a8c294fd26480f3f33d0527e616d/anthropics/skills",
+      "favicon": "https://icons.duckduckgo.com/ip3/github.com.ico"
     }
   }
 }

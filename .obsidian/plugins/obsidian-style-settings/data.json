@@ -172,7 +172,7 @@
   "baseline-style@@colorful-frame": false,
   "baseline-style@@focus-view": false,
   "baseline-style@@mode-switcher-off": false,
-  "baseline-style@@active-line-color": "active-line-color-accent",
+  "baseline-style@@active-line-color": "active-line-color-default",
   "baseline-style@@block-width-off": false,
   "baseline-style@@inline-title-weight": 900,
   "baseline-style@@inline-title-color@@light": "#613BDB",
