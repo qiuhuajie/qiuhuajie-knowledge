@@ -483,7 +483,7 @@
     ]
   },
   "1question/Java 开发/Java/反射.md": {
-    "scroll": 164.72549019607843,
+    "scroll": 0,
     "cursor": {
       "from": {
         "line": 44,
@@ -4891,18 +4891,20 @@
     "expandedKeys": []
   },
   "1question/计算机基础知识/计算机网络/应用层协议/HTTP/7.1 HTTP 介绍.md": {
-    "scroll": 206.346875,
+    "scroll": 0,
     "cursor": {
       "from": {
-        "line": 11,
-        "ch": 2
+        "line": 63,
+        "ch": 19
       },
       "to": {
-        "line": 11,
-        "ch": 2
+        "line": 63,
+        "ch": 19
       }
     },
-    "expandedKeys": []
+    "expandedKeys": [
+      "item-1-3"
+    ]
   },
   "1question/计算机基础知识/计算机网络/应用层协议/HTTP/7 6 Java 发送 HTTP 请求/方式 1：CloseableHttpClient.md": {
     "scroll": 0,
@@ -8690,7 +8692,7 @@
     "expandedKeys": []
   },
   "1question/Java 开发/Java/异常.md": {
-    "scroll": 25.74953196800363,
+    "scroll": 62.74678111587983,
     "cursor": {
       "from": {
         "line": 81,
@@ -9507,7 +9509,7 @@
     ]
   },
   "1question/Java 开发/Java/static 关键字.md": {
-    "scroll": 68.54105865522175,
+    "scroll": 71.47567287784679,
     "cursor": {
       "from": {
         "line": 42,
@@ -9707,7 +9709,7 @@
     ]
   },
   "1question/人工智能/AI Studio/Skills/工作流的 Skill 怎么写？从 7 个顶级 Skill 中提炼的模式与最佳实践 - ATA.md": {
-    "scroll": 308.3120124804992,
+    "scroll": 113.21724548306827,
     "cursor": {
       "from": {
         "line": 19,
@@ -9718,7 +9720,13 @@
         "ch": 0
       }
     },
-    "expandedKeys": []
+    "expandedKeys": [
+      "item-2-18",
+      "item-1-0",
+      "item-2-11",
+      "item-2-7",
+      "item-2-1"
+    ]
   },
   "1question/人工智能/AI Coding/ClaudeCode/Anatomy of the .claude folder.md": {
     "scroll": 88.19576059850374,
@@ -20783,7 +20791,7 @@
     ]
   },
   "资料收集/ATA/AI原生应用实践：实时流式输出与动态渲染方案.md": {
-    "scroll": 849.0540540540541,
+    "scroll": 0,
     "cursor": {
       "from": {
         "line": 15,
@@ -20844,19 +20852,112 @@
     ]
   },
   "1question/人工智能/AI Studio/AI应用流式输出研究笔记.md": {
-    "scroll": 165.67661097852027,
+    "scroll": 0,
     "cursor": {
       "from": {
-        "line": 15,
-        "ch": 0
+        "line": 26,
+        "ch": 2
       },
       "to": {
-        "line": 15,
-        "ch": 0
+        "line": 26,
+        "ch": 2
       }
     },
     "expandedKeys": [
-      "item-1-3"
+      "item-1-1"
     ]
+  },
+  "资料收集/Grok/MTOP API 流式传输协议.md": {
+    "scroll": 0,
+    "cursor": {
+      "from": {
+        "line": 2,
+        "ch": 66
+      },
+      "to": {
+        "line": 2,
+        "ch": 66
+      }
+    },
+    "expandedKeys": []
+  },
+  "1question/人工智能/AI Studio/流式输出.md": {
+    "scroll": 184.51370420624153,
+    "cursor": {
+      "from": {
+        "line": 189,
+        "ch": 105
+      },
+      "to": {
+        "line": 189,
+        "ch": 105
+      }
+    },
+    "expandedKeys": [
+      "item-2-11",
+      "item-2-7",
+      "item-2-1",
+      "item-1-7",
+      "item-1-11"
+    ]
+  },
+  "Clippings/Server-Sent Events 教程 - 阮一峰的网络日志.md": {
+    "scroll": 3.686868686868687,
+    "cursor": {
+      "from": {
+        "line": 10,
+        "ch": 2
+      },
+      "to": {
+        "line": 10,
+        "ch": 2
+      }
+    },
+    "expandedKeys": []
+  },
+  "Clippings/Server-Sent Events 教程 - 阮一峰的网络日志 1.md": {
+    "scroll": 0,
+    "cursor": {
+      "from": {
+        "line": 10,
+        "ch": 2
+      },
+      "to": {
+        "line": 10,
+        "ch": 2
+      }
+    },
+    "expandedKeys": []
+  },
+  "资料收集/Grok/Server-Sent Events 教程 - 阮一峰的网络日志.md": {
+    "scroll": 104.15978980147918,
+    "cursor": {
+      "from": {
+        "line": 117,
+        "ch": 9
+      },
+      "to": {
+        "line": 117,
+        "ch": 9
+      }
+    },
+    "expandedKeys": [
+      "item-1-2",
+      "item-1-6"
+    ]
+  },
+  "资料收集/Grok/MTOP 流式-服务端接入方案.md": {
+    "scroll": 71.99428274428274,
+    "cursor": {
+      "from": {
+        "line": 0,
+        "ch": 0
+      },
+      "to": {
+        "line": 0,
+        "ch": 0
+      }
+    },
+    "expandedKeys": []
   }
 }
