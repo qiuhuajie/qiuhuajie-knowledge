@@ -1270,68 +1270,50 @@
       "image": "https://opengraph.githubassets.com/afd58608dfcc6ed397965a51b6a7dcbe5304a8c294fd26480f3f33d0527e616d/anthropics/skills",
       "favicon": "https://icons.duckduckgo.com/ip3/github.com.ico"
     },
-    "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKw4hTYxBfDjsO3ORU0nG3lbFv3iabQwwSBq9ia00lIeEbcawTWLHtnkqsQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1": {
-      "url": "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKw4hTYxBfDjsO3ORU0nG3lbFv3iabQwwSBq9ia00lIeEbcawTWLHtnkqsQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1",
-      "hostname": "mmbiz.qpic.cn",
-      "title": "mmbiz.qpic.cn",
-      "description": "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKw4hTYxBfDjsO3ORU0nG3lbFv3iabQwwSBq9ia00lIeEbcawTWLHtnkqsQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1",
-      "siteName": "mmbiz.qpic.cn",
-      "image": "",
-      "favicon": "https://icons.duckduckgo.com/ip3/mmbiz.qpic.cn.ico"
+    "https://java2ai.com/docs/frameworks/graph-core/examples/parallel-branch": {
+      "url": "https://java2ai.com/docs/frameworks/graph-core/examples/parallel-branch",
+      "hostname": "java2ai.com",
+      "title": "并行节点定义 | Spring AI Alibaba",
+      "description": "了解如何在 Spring AI Alibaba Graph 中定义并行节点以加速图执行，使用 Executor 进行并发管理",
+      "siteName": "Spring AI Alibaba",
+      "image": "https://spring-ai-alibaba.github.io/img/social-card.jpg",
+      "favicon": "https://icons.duckduckgo.com/ip3/java2ai.com.ico"
     },
-    "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKwUOIWLZXKO1O7UrqN8qLVZQ0ib2sLscOQZw6bxOlwNbUB2NzdsLxB4Lw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1": {
-      "url": "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKwUOIWLZXKO1O7UrqN8qLVZQ0ib2sLscOQZw6bxOlwNbUB2NzdsLxB4Lw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1",
-      "hostname": "mmbiz.qpic.cn",
-      "title": "mmbiz.qpic.cn",
-      "description": "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKwUOIWLZXKO1O7UrqN8qLVZQ0ib2sLscOQZw6bxOlwNbUB2NzdsLxB4Lw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1",
-      "siteName": "mmbiz.qpic.cn",
-      "image": "",
-      "favicon": "https://icons.duckduckgo.com/ip3/mmbiz.qpic.cn.ico"
+    "https://java2ai.com/docs/frameworks/graph-core/examples/human-in-the-loop": {
+      "url": "https://java2ai.com/docs/frameworks/graph-core/examples/human-in-the-loop",
+      "hostname": "java2ai.com",
+      "title": "人类反馈 | Spring AI Alibaba",
+      "description": "在构建agent工作流中，人类反馈是很常见的场景，本期介绍如何利用Spring Ai Alibaba Graph构建工作流时，中断 -> 人类反馈介入 -> 无缝衔接剩下流程",
+      "siteName": "Spring AI Alibaba",
+      "image": "https://spring-ai-alibaba.github.io/img/social-card.jpg",
+      "favicon": "https://icons.duckduckgo.com/ip3/java2ai.com.ico"
     },
-    "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKw9JWfUrQoc6byQhB8NuehDxQqkgAFuMZpFu9YcGUoVh2lCPSpMbSxjQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1": {
-      "url": "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKw9JWfUrQoc6byQhB8NuehDxQqkgAFuMZpFu9YcGUoVh2lCPSpMbSxjQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1",
-      "hostname": "mmbiz.qpic.cn",
-      "title": "mmbiz.qpic.cn",
-      "description": "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKw9JWfUrQoc6byQhB8NuehDxQqkgAFuMZpFu9YcGUoVh2lCPSpMbSxjQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1",
-      "siteName": "mmbiz.qpic.cn",
-      "image": "",
-      "favicon": "https://icons.duckduckgo.com/ip3/mmbiz.qpic.cn.ico"
+    "https://java2ai.com/docs/frameworks/graph-core/examples/llm-streaming-springai": {
+      "url": "https://java2ai.com/docs/frameworks/graph-core/examples/llm-streaming-springai",
+      "hostname": "java2ai.com",
+      "title": "Spring AI Alibaba LLM 流式集成 | Spring AI Alibaba",
+      "description": "学习如何在 Spring AI Alibaba Graph 中使用 LLM 流式输出功能",
+      "siteName": "Spring AI Alibaba",
+      "image": "https://spring-ai-alibaba.github.io/img/social-card.jpg",
+      "favicon": "https://icons.duckduckgo.com/ip3/java2ai.com.ico"
     },
-    "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKwrW4x6H9SkLnNXliazFC8fiahectFwVKYFXGRYTFl2sdBVwCo7SEPGb0A/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1": {
-      "url": "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKwrW4x6H9SkLnNXliazFC8fiahectFwVKYFXGRYTFl2sdBVwCo7SEPGb0A/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1",
-      "hostname": "mmbiz.qpic.cn",
-      "title": "mmbiz.qpic.cn",
-      "description": "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKwrW4x6H9SkLnNXliazFC8fiahectFwVKYFXGRYTFl2sdBVwCo7SEPGb0A/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1",
-      "siteName": "mmbiz.qpic.cn",
-      "image": "",
-      "favicon": "https://icons.duckduckgo.com/ip3/mmbiz.qpic.cn.ico"
+    "https://java2ai.com/integration/chatmodels/more/bedrock-converse": {
+      "url": "https://java2ai.com/integration/chatmodels/more/bedrock-converse",
+      "hostname": "java2ai.com",
+      "title": "Bedrock Converse API | Spring AI Alibaba",
+      "description": "Amazon Bedrock Converse API 为对话式 AI 模型提供统一接口，具有增强功能，包括 function/tool calling、multimodal 输入和 streaming 响应。",
+      "siteName": "Spring AI Alibaba",
+      "image": "https://spring-ai-alibaba.github.io/img/social-card.jpg",
+      "favicon": "https://icons.duckduckgo.com/ip3/java2ai.com.ico"
     },
-    "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKwrr7g2iam9CeIibLB0uET8aLhHCgoYWLtqwfXDUeuYzxHohl7csSp6ZYQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1": {
-      "url": "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKwrr7g2iam9CeIibLB0uET8aLhHCgoYWLtqwfXDUeuYzxHohl7csSp6ZYQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1",
-      "hostname": "mmbiz.qpic.cn",
-      "title": "mmbiz.qpic.cn",
-      "description": "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKwrr7g2iam9CeIibLB0uET8aLhHCgoYWLtqwfXDUeuYzxHohl7csSp6ZYQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1",
-      "siteName": "mmbiz.qpic.cn",
-      "image": "",
-      "favicon": "https://icons.duckduckgo.com/ip3/mmbiz.qpic.cn.ico"
-    },
-    "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKwyoBHNeB2zrfu1mfpj3KG2UAgdxKLgb4S1jW4bI1UZukPlBFqGbelow/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1": {
-      "url": "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKwyoBHNeB2zrfu1mfpj3KG2UAgdxKLgb4S1jW4bI1UZukPlBFqGbelow/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1",
-      "hostname": "mmbiz.qpic.cn",
-      "title": "mmbiz.qpic.cn",
-      "description": "https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaQlYph2qibic0ib3NzFAiciafWKwyoBHNeB2zrfu1mfpj3KG2UAgdxKLgb4S1jW4bI1UZukPlBFqGbelow/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1",
-      "siteName": "mmbiz.qpic.cn",
-      "image": "",
-      "favicon": "https://icons.duckduckgo.com/ip3/mmbiz.qpic.cn.ico"
-    },
-    "https://github.com/github/gitignore": {
-      "url": "https://github.com/github/gitignore",
-      "hostname": "github.com",
-      "title": "GitHub - github/gitignore: A collection of useful .gitignore templates",
-      "description": "A collection of useful .gitignore templates. Contribute to github/gitignore development by creating an account on GitHub.",
-      "siteName": "GitHub",
-      "image": "https://opengraph.githubassets.com/0076bbbd28db9f939049f08f26ea63f7932fee81bf5a6cb657dd2738ac9fe9fd/github/gitignore",
-      "favicon": "https://icons.duckduckgo.com/ip3/github.com.ico"
+    "https://skills.sh/": {
+      "url": "https://skills.sh/",
+      "hostname": "skills.sh",
+      "title": "The Agent Skills Directory",
+      "description": "Discover and install skills for AI agents.",
+      "siteName": "Skills",
+      "image": "https://www.skills.sh/og.jpeg",
+      "favicon": "https://icons.duckduckgo.com/ip3/skills.sh.ico"
     }
   }
 }

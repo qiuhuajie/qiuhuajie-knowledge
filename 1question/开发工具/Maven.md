@@ -7,7 +7,7 @@ tags:
   - "MyBatis"
   - "Spring Boot"
   - "Spring Cloud"
-updated: 2026-04-16
+updated: 2026-06-28
 ---
 # 一、Maven 安装
 > ℹ️ Maven安装与配置_mvn version-CSDN博客
@@ -42,7 +42,7 @@ updated: 2026-04-16
 # 四、父 POM 和 子 POM
 1. 父 POM
     > 💡 **父工程创建完成执行**
-    >
+    > 
     > **`mvn clean & install`** **将父工程发布到仓库方便子工程继承**
     - 查看全部内容
 
@@ -233,5 +233,87 @@ updated: 2026-04-16
     2. 这样当想升级或切换到另一个版本时，只需要在顶层父容器里更新，而不需要一个一个子项目的修改
     3. 另外如果某个子项目需要另外的一个版本，只需要声明version就可
 
-# 六、相关实战笔记
-1. [[Spring AI Alibaba 版本管理]]：把 `dependencyManagement`、父 `pom`、BOM 和外部版本清单导入，放进 `spring-ai-alibaba-starter-dashscope` 缺少 `version` 的真实排障案例里解释。
+# 六、Maven 中的 BOM
+## 1. BOM 是什么
+1. `BOM` 全称是 `Bill of Materials`，直译是“物料清单”，放在 Maven 语境里更适合理解成“依赖版本清单”。
+2. 它通常是一个 `packaging = pom` 的工程，自己不提供业务功能，==主要作用是通过 `dependencyManagement` 统一管理**一组依赖版本**。==
+3. 项目里导入 BOM 之后，子模块再声明这些依赖时，就可以不写 `<version>`，Maven 会从 BOM 的 `dependencyManagement` 里把版本补出来。
+4. 这里最容易混淆的一点是：`BOM` 负责“管版本”，但不会自动“把依赖真正引进来”。
+5. 一句话记忆可以写成下面这样。
+    ```text
+    dependencies 决定“要什么”
+    dependencyManagement / BOM 决定“用哪个版本”
+    ```
+
+## 2. 父 POM、dependencyManagement 和 BOM 的关系
+1. `dependencyManagement` 是 Maven 的原生机制，`BOM` 不是一套全新的独立机制，而是 `dependencyManagement` 的一种标准化用法。
+2. 如果父 `pom` 把依赖写在 `<dependencies>` 里，含义是“父工程自己依赖这个包”，它更偏向依赖继承。
+    ```xml
+    <dependencies>
+        <dependency>
+            <groupId>com.xxx</groupId>
+            <artifactId>travelvc-client</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+    </dependencies>
+    ```
+3. 如果父 `pom` 把依赖写在 `<dependencyManagement>` 里，含义是“父工程统一管理版本，但不自动替子模块引入这个依赖”。
+    ```xml
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.xxx</groupId>
+                <artifactId>travelvc-client</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    ```
+4. 子模块这时可以只声明依赖，不写版本。
+    ```xml
+    <dependencies>
+        <dependency>
+            <groupId>com.xxx</groupId>
+            <artifactId>travelvc-client</artifactId>
+        </dependency>
+    </dependencies>
+    ```
+5. `BOM` 做的事情，本质上也是把一大批这样的版本定义集中起来，只不过它**常常是一个单独的 `pom`**，再通过 `import` 的方式引入。
+    ```xml
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-extensions-bom</artifactId>
+                <version>1.1.2.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    ```
+6. 所以更准确地说：
+    * 你自己在父 `pom` 的 `dependencyManagement` 里一条条写版本，是“自建版本清单”。
+    * 你导入别人提供的 BOM，是“复用外部版本清单”。
+7. ==两者在效果上非常接近，**差别主要只在版本清单由谁维护**。==
+
+## 3. Maven 如何从 BOM 中解析版本
+1. 最小关系图如下。
+    ```text
+    业务模块 pom.xml
+    │
+    ├─ <parent>
+    │   └─ 父 pom.xml
+    │
+    ├─ <dependencies>
+    │   └─ 只声明“我要用哪个依赖”
+    │      例如：spring-ai-alibaba-starter-dashscope
+    │      可以不写 <version>
+    │
+    └─ Maven 在解析版本时，会去看：
+        1. 当前 pom 的 <dependencyManagement>
+        2. 父 pom 的 <dependencyManagement>
+        3. 父 pom 里 import 的各个 BOM
+        4. 还找不到的话，就报错：缺少 version
+    ```
+2. 如果某个 starter 不再由原来的 BOM 管理，而项目里又没有显式写 `<version>`，Maven 就会报依赖缺少版本；这类问题本质上不是 artifact 一定不存在，而是当前导入的版本清单没有管理它。

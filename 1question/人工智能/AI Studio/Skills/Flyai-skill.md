@@ -19,12 +19,14 @@ updated: 2026-04-16
 1. 飞猪发布的旅行搜索 skill，覆盖机票、酒店、景点、演出、邮轮、签证等全品类。
 
     ![[IMG-20260405104600227.webp|788]]
+
 2. **flyai-skill 的结构是两层**：一个 SKILL.md 文件 + 一个 flyai-cli。
     * 安装步骤：先把 SKILL.md 拷进 `~/.claude/skills/flyai`，再全局装 `@fly-ai/flyai-cli` 这个 npm 包。
     * 两层分工明确：SKILL.md 负责让 Agent 知道能力存在、什么时候激活；flyai-cli 负责实际执行。
 3. **SKILL.md 的触发机制**：定义了触发意图和正则 pattern，比如检测到 "search hotels near West Lake" 或 "find direct flights from Beijing"，skill 就以 priority 90 的优先级激活。
 
     ![[IMG-20260405104600250.webp|451]]
+
 4. **激活后 Agent 调用四个 CLI 命令**：
     * `fliggy-fast-search`：全品类自然语言搜索
     * `search-flight`：精细化机票查询
@@ -40,15 +42,18 @@ updated: 2026-04-16
 4. Quick Start 拆了两个章节，一个给人类，一个给 AI Agent，连认证交互流程都不一样。**这不是包装 API，是重建接口。**
 
     ![[IMG-20260405104600299.webp|641]]
+
 ## MCP Vs Skill Vs CLI 三条路对比
 ### MCP 的问题：能力发现导致 Context 膨胀
 1. MCP 协议本身没问题，**问题出在能力发现机制上**。
 
     ![[IMG-20260405104600369.webp|719]]
+
 2. 按照 MCP 规范，client 建立连接后立即发送 `list_tools` 请求，server 把所有工具定义一次性返回（包括名称、描述、完整 inputSchema），**全部进入 LLM context，常驻不消失**。
 3. 以腾讯云 CODING DevOps MCP server 为例：光 code 模块就有 3 个工具，issue + project 模块再加，总计 11 个工具，`list_commits` 单个工具就有 9 个字段的 inputSchema。11 个工具全量注入 context，**常驻约 3300 tokens**。
 
     ![[IMG-20260405104600410.webp|636]]
+
 4. 这是协议设计决定的，不是实现不好。企业级服务如果把所有 OpenAPI 都包成 MCP 工具，200+ 接口全量注入，context 直接爆掉。
 
 ### Skill 的核心机制：懒加载
@@ -57,6 +62,7 @@ updated: 2026-04-16
 3. 飞书的 19 个 skill 同样如此，发消息用 lark-im，查日历用 lark-calendar，不同时发生，context 里就只有当前需要的那一份。
 
     ![[IMG-20260405104600460.webp|797]]
+
 ### CLI 的作用：执行确定性
 1. SKILL.md 里写的是步骤和规则，LLM 读完自己决定怎么做。API 参数怎么填、时间格式用什么、分页怎么处理，靠 LLM 理解。**理解偏了，调用就失败了。**
 2. **这就是为什么飞猪和飞书都在 Skill 下面接了 CLI：把不确定的执行层变成确定性的 bash 调用。**

@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>断点续接流程图</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #64748b;
+      --line: #c9d3e2;
+      --blue: #2563eb;
+      --blue-soft: #e8f0ff;
+      --green: #16834a;
+      --green-soft: #e7f8ee;
+      --amber: #b7791f;
+      --amber-soft: #fff4dc;
+      --gray-soft: #f4f7fb;
+      --card: #ffffff;
+      --shadow: 0 14px 36px rgba(23, 32, 51, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 16%, rgba(37, 99, 235, 0.16), transparent 28%),
+        radial-gradient(circle at 86% 12%, rgba(22, 131, 74, 0.14), transparent 30%),
+        linear-gradient(135deg, #f7fbff 0%, #f8fff9 100%);
+    }
+
+    .page {
+      width: 1440px;
+      min-height: 920px;
+      margin: 0 auto;
+      padding: 54px;
+    }
+
+    .board {
+      position: relative;
+      overflow: hidden;
+      padding: 42px;
+      border: 1px solid rgba(201, 211, 226, 0.9);
+      border-radius: 32px;
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .board::before {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      background-image:
+        linear-gradient(rgba(100, 116, 139, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100, 116, 139, 0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: linear-gradient(to bottom, black, transparent 72%);
+    }
+
+    .header {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      gap: 32px;
+      align-items: flex-start;
+      margin-bottom: 34px;
+    }
+
+    .title {
+      margin: 0 0 10px;
+      font-size: 34px;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+    }
+
+    .subtitle {
+      max-width: 860px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .badge {
+      flex: 0 0 auto;
+      padding: 11px 16px;
+      border: 1px solid #b7e1c5;
+      border-radius: 999px;
+      color: var(--green);
+      background: var(--green-soft);
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .flow {
+      position: relative;
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 18px 20px;
+    }
+
+    .lane-label {
+      display: flex;
+      min-height: 118px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 22px;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .lane-label.normal {
+      color: var(--blue);
+      background: var(--blue-soft);
+      border: 1px solid #b9cdfc;
+    }
+
+    .lane-label.break {
+      color: var(--amber);
+      background: var(--amber-soft);
+      border: 1px dashed #e4bd68;
+    }
+
+    .lane-label.reconnect {
+      color: var(--green);
+      background: var(--green-soft);
+      border: 1px solid #b7e1c5;
+    }
+
+    .lane-label.loop {
+      color: #475569;
+      background: var(--gray-soft);
+      border: 1px solid #d7e0ec;
+    }
+
+    .steps {
+      display: grid;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .steps.normal {
+      grid-template-columns: 1fr 52px 1fr 52px 1fr;
+    }
+
+    .steps.reconnect {
+      grid-template-columns: 1fr 42px 1fr 42px 1fr 42px 1fr;
+    }
+
+    .steps.loop {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .break-note {
+      min-height: 118px;
+      padding: 24px 28px;
+      border: 1px dashed #e4bd68;
+      border-radius: 22px;
+      color: #75500f;
+      background: #fffaf0;
+      font-size: 18px;
+      line-height: 1.65;
+    }
+
+    .node {
+      position: relative;
+      min-height: 118px;
+      padding: 22px 20px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--card);
+      box-shadow: 0 10px 24px rgba(23, 32, 51, 0.08);
+    }
+
+    .node.blue {
+      border-color: #b9cdfc;
+    }
+
+    .node.green {
+      border-color: #b7e1c5;
+    }
+
+    .node.gray {
+      border-color: #d7e0ec;
+    }
+
+    .node-title {
+      margin-bottom: 8px;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .node-desc {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      font-size: 32px;
+      font-weight: 300;
+    }
+
+    code {
+      padding: 2px 6px;
+      border-radius: 7px;
+      color: #0f766e;
+      background: #ecfdf5;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.92em;
+      font-weight: 700;
+    }
+
+    .footer {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .rule {
+      padding: 16px 18px;
+      border: 1px solid #d7e0ec;
+      border-radius: 18px;
+      background: rgba(248, 250, 252, 0.92);
+    }
+
+    .rule-title {
+      margin-bottom: 6px;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .rule-desc {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="board" aria-label="断点续接流程图">
+      <header class="header">
+        <div>
+          <h1 class="title">断点续接流程：生成线程持续写，续接线程按 seq 补</h1>
+          <p class="subtitle">MTOP 长连接断开后，不能恢复原连接；业务层通过 Tair 保存 chunk 与序号，前端重新发起 continueChat 后，从已收到的最大 seq 之后继续回放和等待。</p>
+        </div>
+        <div class="badge">Tair + seq + 新 MTOP 流</div>
+      </header>
+
+      <div class="flow">
+        <div class="lane-label normal">正常生成</div>
+        <div class="steps normal">
+          <div class="node blue">
+            <div class="node-title">FAI / 生成线程</div>
+            <div class="node-desc">大模型持续产生 <code>chunk</code>，每个 chunk 是一次可推送的增量事件。</div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="node blue">
+            <div class="node-title">streamWriter.accept()</div>
+            <div class="node-desc">同一个 chunk 先写入原 MTOP 流，前端实时看到打字机效果。</div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="node blue">
+            <div class="node-title">recordStreamMessageResult()</div>
+            <div class="node-desc">为 chunk 分配递增 <code>seq</code>，写入 Tair，保留 2 小时续接窗口。</div>
+          </div>
+        </div>
+
+        <div class="lane-label break">连接中断</div>
+        <div class="break-note">弱网闪断、页面退出、App 切后台或 WebView 被回收后，原 MTOP 长连接已经消失。前端不能恢复旧连接，只能带上自己已收到的最大 <code>seq</code>，重新请求续接。</div>
+
+        <div class="lane-label reconnect">断点续接</div>
+        <div class="steps reconnect">
+          <div class="node green">
+            <div class="node-title">前端携带 maxSeq</div>
+            <div class="node-desc">告诉服务端：我已经收到哪里了，后面从这个断点继续补。</div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="node green">
+            <div class="node-title">continueChat</div>
+            <div class="node-desc">续接不是恢复旧流，而是发起一个新的业务请求。</div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="node green">
+            <div class="node-title">startStream()</div>
+            <div class="node-desc">服务端开启一条全新的 MTOP 流，作为续接输出通道。</div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="node green">
+            <div class="node-title">outputCacheContent()</div>
+            <div class="node-desc">从 Tair 按 <code>seq</code> 读取后续 chunk，写入新流。</div>
+          </div>
+        </div>
+
+        <div class="lane-label loop">循环判断</div>
+        <div class="steps loop">
+          <div class="node gray">
+            <div class="node-title">读到 chunk</div>
+            <div class="node-desc">立即写入新 MTOP 流，前端继续渲染；随后 <code>curSeq++</code>，等待下一帧。</div>
+          </div>
+          <div class="node gray">
+            <div class="node-title">暂时没有 chunk</div>
+            <div class="node-desc">每 <code>20ms</code> 轮询等待一次，每 50 次发送心跳包，避免长连接空闲断开。</div>
+          </div>
+          <div class="node gray">
+            <div class="node-title">满足退出条件</div>
+            <div class="node-desc"><code>END</code> 且已读完、等待超时、用户 <code>STOP</code>、风控 <code>BLOCK</code>，任一满足即结束新流。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="rule">
+          <div class="rule-title">关键点 1：旧连接不可恢复</div>
+          <div class="rule-desc">MTOP 流绑定原 HTTP 长连接，断开后只能新建连接。</div>
+        </div>
+        <div class="rule">
+          <div class="rule-title">关键点 2：seq 是断点</div>
+          <div class="rule-desc">前端记录最大 seq，服务端从后续序号开始补发。</div>
+        </div>
+        <div class="rule">
+          <div class="rule-title">关键点 3：Tair 是缓冲区</div>
+          <div class="rule-desc">生成线程边推边写缓存，续接线程只负责按序读取。</div>
+        </div>
+        <div class="rule">
+          <div class="rule-title">关键点 4：心跳保活</div>
+          <div class="rule-desc">等待新 chunk 时定期发心跳，避免前端误判服务端挂起。</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
