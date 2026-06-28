@@ -150,7 +150,7 @@ public EnhanceCompletableFuture() {
 ```
 ## 2. 任务执行方法
 
-* `Supplier<T>` 表示任务结果的提供者，函数式接口定义见 [[Supplier]]。
+* `Supplier<T>` 表示任务结果的提供者，函数式接口定义见 [[Supplier&Consumer]]。
 
 ```Java
 public <T> CompletableFuture<T> supplyAsync(Supplier<T> supplier) {

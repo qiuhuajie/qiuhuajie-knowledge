@@ -888,7 +888,6 @@
   "1question/Java 开发/Java/Java 8 新特性/Lambda 表达式.md": "TiNotes",
   "1question/Java 开发/Java/Java 8 新特性/Optional 类.md": "TiNotes",
   "1question/Java 开发/Java/Java 8 新特性/Stream API.md": "TiNotes",
-  "1question/Java 开发/Java/Java 8 新特性/Supplier.md": "TiNotes",
   "1question/Java 开发/Java/Java 8 新特性/函数式（Functional）接口.md": "TiNotes",
   "1question/Java 开发/Java/Java 8 新特性/方法引用与构造器引用.md": "TiNotes",
   "Attachment/1question/Java 开发/Java/IO 流/Java 8 新特性": "TiNotes",
@@ -1692,5 +1691,6 @@
   "资料收集/WeChat/大模型流式输出实现原理深度解析.md": "TiNotes",
   "1question/人工智能/AI Studio/流式输出.md": "TiNotes",
   "资料收集/Grok/Server-Sent Events 教程 - 阮一峰的网络日志.md": "TiNotes",
-  "资料收集/Grok/MTOP 流式-服务端接入方案.md": "TiNotes"
+  "资料收集/Grok/MTOP 流式-服务端接入方案.md": "TiNotes",
+  "1question/Java 开发/Java/Java 8 新特性/Supplier&Consumer.md": "TiNotes"
 }
