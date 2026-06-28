@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7.3 序号化续接机制</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fff; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; display: flex; justify-content: center; padding: 32px 16px; }
+  .canvas { width: 960px; }
+  h2 { font-size: 18px; color: #1a1a1a; margin-bottom: 24px; text-align: center; font-weight: 600; }
+  .section-title { font-size: 14px; font-weight: 700; color: #475569; margin: 28px 0 14px; padding-left: 12px; border-left: 3px solid #3b82f6; }
+  .section-title.green { border-left-color: #10b981; }
+  .section-title.amber { border-left-color: #f59e0b; }
+  .section-title.red { border-left-color: #ef4444; }
+
+  /* ===== 双列布局 ===== */
+  .two-col { display: flex; gap: 16px; margin-bottom: 8px; }
+  .two-col > * { flex: 1; }
+
+  /* ===== 流程卡片 ===== */
+  .flow-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .flow-header {
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .flow-header.blue { background: #3b82f6; }
+  .flow-header.green { background: #10b981; }
+  .flow-body { padding: 14px 16px; }
+
+  /* ===== 步骤列表 ===== */
+  .steps { list-style: none; }
+  .steps li {
+    position: relative;
+    padding: 10px 12px 10px 36px;
+    font-size: 13px;
+    color: #334155;
+    line-height: 1.6;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .steps li:last-child { border-bottom: none; }
+  .steps li::before {
+    content: attr(data-step);
+    position: absolute;
+    left: 8px;
+    top: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+  .steps.blue li::before { background: #3b82f6; }
+  .steps.green li::before { background: #10b981; }
+
+  /* ===== Tair 存储示意 ===== */
+  .tair-box {
+    background: #fefce8;
+    border: 2px solid #facc15;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 16px 0;
+  }
+  .tair-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #854d0e;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .tair-keys { display: flex; flex-direction: column; gap: 8px; }
+  .tair-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .tair-key {
+    font-family: "SF Mono", "Fira Code", monospace;
+    background: #fef9c3;
+    border: 1px solid #fde047;
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: #713f12;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .tair-val {
+    color: #78716c;
+    font-size: 11px;
+  }
+  .tair-arrow { color: #d97706; font-weight: bold; flex-shrink: 0; }
+  .ttl-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: #fef3c7;
+    color: #92400e;
+    flex-shrink: 0;
+  }
+
+  /* ===== 心跳 & 超时 ===== */
+  .mech-row { display: flex; gap: 16px; margin: 16px 0; }
+  .mech-card {
+    flex: 1;
+    border-radius: 10px;
+    padding: 16px;
+    border: 2px solid;
+  }
+  .mech-card.heartbeat { border-color: #f59e0b; background: #fffbeb; }
+  .mech-card.timeout { border-color: #ef4444; background: #fef2f2; }
+  .mech-name { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .mech-card.heartbeat .mech-name { color: #92400e; }
+  .mech-card.timeout .mech-name { color: #991b1b; }
+  .mech-detail { font-size: 12px; color: #475569; line-height: 1.7; }
+  .mech-formula {
+    display: inline-block;
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 12px;
+    font-weight: 600;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin: 4px 0;
+  }
+
+  /* ===== 退出条件 ===== */
+  .exit-list { display: flex; gap: 12px; margin: 16px 0; }
+  .exit-item {
+    flex: 1;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .exit-item.ok { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+  .exit-item.warn { background: #fff7ed; border: 1px solid #fed7aa; color: #9a3412; }
+  .exit-item.stop { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+  .exit-icon { font-size: 20px; margin-bottom: 4px; }
+  .exit-label { font-weight: 700; }
+
+  /* ===== 连接箭头 ===== */
+  .connector {
+    text-align: center;
+    font-size: 22px;
+    color: #94a3b8;
+    margin: 4px 0;
+    line-height: 1;
+  }
+
+  .note {
+    font-size: 11px;
+    color: #94a3b8;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  code {
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 11px;
+    background: #f1f5f9;
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+  b { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <h2>7.3 序号化续接机制全景图</h2>
+
+  <!-- ===== 写入侧 & 续接侧 ===== -->
+  <div class="two-col">
+    <!-- 写入侧 -->
+    <div class="flow-card">
+      <div class="flow-header blue">写入侧：正常流程</div>
+      <div class="flow-body">
+        <ul class="steps blue">
+          <li data-step="1">生成线程产出 chunk，调用 <code>streamWriter.accept(chunk)</code></li>
+          <li data-step="2">MTOP 流实时推送给前端（打字机效果）</li>
+          <li data-step="3"><code>recordStreamMessageResult()</code><br>
+            <b>synchronized(msgId.intern())</b> 内：<br>
+            ① 从 <code>CONTENT_SEQ_MAP</code> 取当前 seq<br>
+            ② <code>result.setSeq(seq)</code><br>
+            ③ chunk 序列化写入 Tair<br>
+            ④ seq++ 更新内存 map + Tair
+          </li>
+          <li data-step="4">流结束 → 消息状态写入 Tair：<code>END</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 续接侧 -->
+    <div class="flow-card">
+      <div class="flow-header green">续接侧：断线恢复</div>
+      <div class="flow-body">
+        <ul class="steps green">
+          <li data-step="1">前端检测断线，携带 <code>messageId</code> + <code>seq</code> 调用 <code>continueChat</code></li>
+          <li data-step="2"><code>startStream()</code> 开启<b>全新 MTOP 流</b></li>
+          <li data-step="3">若 <code>seq=0</code>：<code>mget</code> 批量查出所有 chunk，合并为一条消息一次性写出</li>
+          <li data-step="4">若 <code>seq>0</code>：从 Tair 逐条读取 <code>seq</code> 之后的 chunk，通过新流写出</li>
+          <li data-step="5">读不到 chunk → sleep 20ms 等待 → 每 1 秒发心跳保活</li>
+          <li data-step="6">正常结束 / 超时 / 流中止 → <code>writeAndEnd</code> 关闭流</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Tair 存储 ===== -->
+  <div class="connector">▼</div>
+  <div class="section-title amber">Tair 缓存层（namespace 407）—— 解耦写入与续接</div>
+  <div class="tair-box">
+    <div class="tair-keys">
+      <div class="tair-row">
+        <div class="tair-key">ai:journey:content:map:{msgId}0</div>
+        <div class="tair-arrow">→</div>
+        <div class="tair-val">{"seq":0, "message":"签证建议...", "type":"SUGGESTION_CHUNK", ...}</div>
+        <div class="ttl-tag">TTL 2h</div>
+      </div>
+      <div class="tair-row">
+        <div class="tair-key">ai:journey:content:map:{msgId}1</div>
+        <div class="tair-arrow">→</div>
+        <div class="tair-val">{"seq":1, "message":"根据您的...", "type":"SUGGESTION_CHUNK", ...}</div>
+        <div class="ttl-tag">TTL 2h</div>
+      </div>
+      <div class="tair-row">
+        <div class="tair-key">ai:journey:content:map:{msgId}2</div>
+        <div class="tair-arrow">→</div>
+        <div class="tair-val">{"seq":2, "score":85, "type":"SCORE", ...}</div>
+        <div class="ttl-tag">TTL 2h</div>
+      </div>
+      <div class="tair-row" style="opacity: 0.5;">
+        <div class="tair-key" style="letter-spacing: 3px;">... ... ...</div>
+        <div class="tair-arrow">→</div>
+        <div class="tair-val">更多 chunk ...</div>
+        <div class="ttl-tag">TTL 2h</div>
+      </div>
+      <div class="tair-row" style="margin-top: 6px; padding-top: 8px; border-top: 1px dashed #fde047;">
+        <div class="tair-key">ai:journey:content:seq:{msgId}</div>
+        <div class="tair-arrow">→</div>
+        <div class="tair-val"><b>42</b>（当前最大序号，续接时判断"生成到哪了"）</div>
+        <div class="ttl-tag">TTL 2h</div>
+      </div>
+      <div class="tair-row">
+        <div class="tair-key">ai:journey:messageId:status:{msgId}</div>
+        <div class="tair-arrow">→</div>
+        <div class="tair-val"><b>END</b> / STOP / BLOCK（流是否结束）</div>
+        <div class="ttl-tag">TTL 1h</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 心跳 & 超时 ===== -->
+  <div class="connector">▼</div>
+  <div class="section-title red">续接线程的保活与退出控制</div>
+  <div class="mech-row">
+    <div class="mech-card heartbeat">
+      <div class="mech-name">心跳保活</div>
+      <div class="mech-detail">
+        轮询等待时，每 <b>50 次 × 20ms</b> 发一次心跳：<br>
+        <div class="mech-formula">间隔 = 50 × 20ms = 1 秒</div><br>
+        心跳包：<code>{"heartBeat": true}</code><br>
+        前端收到后忽略内容，仅重置超时计时器。<br><br>
+        <b>防止的问题：</b><br>
+        • MTOP 连接被代理/SLB 超时断开<br>
+        • 前端误判服务端无响应
+      </div>
+    </div>
+    <div class="mech-card timeout">
+      <div class="mech-name">超时控制</div>
+      <div class="mech-detail">
+        两个可动态调整的参数（<code>@AppSwitch</code>）：<br>
+        <div class="mech-formula">WAIT_TIME_MS = 20ms</div>
+        <div class="mech-formula">TIMEOUT_COUNT = 1500</div><br>
+        总超时 = <b>1500 × 20ms = 30 秒</b><br><br>
+        <b>关键行为：</b><br>
+        • 每次成功读到 chunk → 计数器<b>归零</b><br>
+        • 只有连续 30 秒读不到任何新 chunk 才会超时
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 三种退出条件 ===== -->
+  <div class="exit-list">
+    <div class="exit-item ok">
+      <div class="exit-icon">✓</div>
+      <div class="exit-label">正常完成</div>
+      <div>status = <code>END</code><br>且 <code>curSeq ≥ maxSeq</code></div>
+    </div>
+    <div class="exit-item warn">
+      <div class="exit-icon">⏱</div>
+      <div class="exit-label">超时退出</div>
+      <div>连续等待 > 1500 次<br>（约 30 秒无新 chunk）</div>
+    </div>
+    <div class="exit-item stop">
+      <div class="exit-icon">✕</div>
+      <div class="exit-label">流被中止</div>
+      <div>status = <code>STOP</code><br>或 <code>BLOCK</code>（风控）</div>
+    </div>
+  </div>
+
+  <div class="note">
+    生成线程和续接线程通过 Tair 完全解耦 · 两类中断（弱网/退出页面）统一解决 · 前端收到的数据格式与正常流一致
+  </div>
+</div>
+</body>
+</html>

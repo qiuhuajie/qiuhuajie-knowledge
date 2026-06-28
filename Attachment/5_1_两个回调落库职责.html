@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5.1 两个回调各自的落库职责</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fff; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; display: flex; justify-content: center; padding: 32px 16px; }
+  .canvas { width: 900px; }
+  h2 { font-size: 18px; color: #1a1a1a; margin-bottom: 24px; text-align: center; font-weight: 600; }
+
+  .timeline { position: relative; padding-left: 140px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 130px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, #3b82f6 0%, #3b82f6 55%, #10b981 55%, #10b981 100%);
+    border-radius: 2px;
+  }
+
+  .phase-label {
+    position: absolute;
+    left: 0;
+    width: 120px;
+    text-align: right;
+    font-size: 13px;
+    font-weight: 600;
+    padding-right: 16px;
+  }
+  .phase-label.phase1 { color: #3b82f6; }
+  .phase-label.phase2 { color: #10b981; }
+
+  .step {
+    position: relative;
+    margin-bottom: 20px;
+    padding-left: 28px;
+  }
+  .step:last-child { margin-bottom: 0; }
+
+  .step::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 8px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 3px solid;
+    background: #fff;
+    z-index: 1;
+  }
+  .step.blue::before { border-color: #3b82f6; }
+  .step.green::before { border-color: #10b981; }
+  .step.blue.filled::before { background: #3b82f6; }
+  .step.green.filled::before { background: #10b981; }
+
+  .step-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 18px;
+  }
+  .step-content.highlight-blue {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+  }
+  .step-content.highlight-green {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+  }
+
+  .step-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 6px;
+  }
+  .step-desc {
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.6;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .tag-consumer { background: #dbeafe; color: #1d4ed8; }
+  .tag-runnable { background: #fef3c7; color: #92400e; }
+  .tag-thread { background: #f3e8ff; color: #6b21a8; }
+
+  .callback-box {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .cb-card {
+    flex: 1;
+    border-radius: 8px;
+    padding: 16px;
+    border: 2px solid;
+  }
+  .cb-card.consumer {
+    border-color: #3b82f6;
+    background: #eff6ff;
+  }
+  .cb-card.runnable {
+    border-color: #f59e0b;
+    background: #fffbeb;
+  }
+  .cb-name {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .cb-card.consumer .cb-name { color: #1d4ed8; }
+  .cb-card.runnable .cb-name { color: #92400e; }
+  .cb-type {
+    font-size: 12px;
+    color: #64748b;
+    font-family: "SF Mono", "Fira Code", monospace;
+    margin-bottom: 8px;
+  }
+  .cb-desc {
+    font-size: 13px;
+    color: #334155;
+    line-height: 1.5;
+  }
+
+  .divider {
+    height: 1px;
+    background: #e2e8f0;
+    margin: 28px 0;
+  }
+
+  .note {
+    font-size: 12px;
+    color: #94a3b8;
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.6;
+  }
+
+  .arrow-down {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 20px;
+    margin: 4px 0;
+  }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <h2>5.1 两个回调各自的落库职责</h2>
+
+  <!-- 回调卡片 -->
+  <div class="callback-box">
+    <div class="cb-card consumer">
+      <div class="cb-name">streamWriter</div>
+      <div class="cb-type">Consumer&lt;PredictStreamChunkVO&gt;</div>
+      <div class="cb-desc">
+        每产生一个业务事件，通过 <b>accept(chunk)</b> 推给 MTOP 层写出。<br>
+        职责：<b>实时推送数据给前端</b>（不直接落库）
+      </div>
+    </div>
+    <div class="cb-card runnable">
+      <div class="cb-name">onScoreCompleteCallback</div>
+      <div class="cb-type">Runnable</div>
+      <div class="cb-desc">
+        <code>&lt;/score&gt;</code> 闭合时由 parser 调用 <b>run()</b>。<br>
+        职责：<b>触发阶段一落库</b>（状态更新 + 通知前端完成）
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 时序 -->
+  <div class="timeline">
+    <!-- 阶段一 -->
+    <div class="phase-label phase1" style="top: 8px;">流进行中</div>
+    <div class="step blue">
+      <div class="step-content">
+        <div class="step-title">parser 逐 token 解析</div>
+        <div class="step-desc">
+          <span class="tag tag-consumer">streamWriter</span>
+          每解析出一个 chunk → <code>streamWriter.accept(chunk)</code> → MTOP 写出 → 前端打字机效果
+        </div>
+      </div>
+    </div>
+
+    <div class="step blue filled">
+      <div class="step-content highlight-blue">
+        <div class="step-title">&lt;/score&gt; 标签闭合 → 阶段一落库</div>
+        <div class="step-desc">
+          <span class="tag tag-runnable">onScoreCompleteCallback</span>
+          <code>run()</code> → <b>persistScoreAndComplete()</b><br>
+          ① <code>updateTaskStatus(FINISHED)</code><br>
+          ② 借助 <code>streamWriter</code> 推送 COMPLETED chunk 通知前端
+        </div>
+      </div>
+    </div>
+
+    <div class="step blue">
+      <div class="step-content">
+        <div class="step-title">继续接收 report 内容</div>
+        <div class="step-desc">
+          <span class="tag tag-consumer">streamWriter</span>
+          report 的 chunk 继续通过 <code>streamWriter.accept()</code> 推送（但前端此时已收到 COMPLETED，可选择忽略）
+        </div>
+      </div>
+    </div>
+
+    <!-- 分隔 -->
+    <div class="phase-label phase2" style="top: 258px;">流结束后</div>
+    <div class="step green filled">
+      <div class="step-content highlight-green">
+        <div class="step-title">doStreamModelCall 返回 → 阶段二落库</div>
+        <div class="step-desc">
+          <span class="tag tag-thread">请求线程</span>
+          <b>不经过回调</b>，请求线程串行执行：<br>
+          <code>assembleFullResult()</code> → <code>persistReportResult()</code><br>
+          用 <code>task_id + execution_version</code> 条件更新写入完整 report
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    两个回调 + 阶段二落库都在同一个调用线程上同步执行，不存在并发竞争
+  </div>
+</div>
+</body>
+</html>
